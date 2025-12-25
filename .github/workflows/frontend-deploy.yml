@@ -24,6 +24,13 @@ jobs:
         run: |
           aws s3 sync frontend/ s3://hsivasambu-resume-prod --delete
 
+      - name: Debug confirm DIST_ID is set
+  env:
+    DIST_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+  run: |
+    test -n "$DIST_ID" && echo "DIST_ID is set"
+
+
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
