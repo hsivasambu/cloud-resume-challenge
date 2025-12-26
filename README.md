@@ -25,12 +25,14 @@ The solution uses a serverless architecture designed for scalability, reliabilit
 
 All infrastructure is managed using **Terraform**.
 
+```mermaid
 flowchart LR
 User["User Browser"] -->|HTTPS| CF["CloudFront CDN"]
 CF -->|Static Files| S3["S3 Bucket (Resume Site)"]
 CF -->|API Request| API["API Gateway"]
 API --> Lambda["AWS Lambda"]
 Lambda --> DB["DynamoDB"]
+```
 
 ---
 
