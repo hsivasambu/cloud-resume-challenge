@@ -31,13 +31,13 @@ jobs:
         working-directory: backend
         run: pytest -q
 
-      - name: Package lambda zip
+      - name: Package lambda zip (with deps)
         run: |
-          mkdir -p build
-          # Put backend/app.py into the zip as app.py at the root
+          rm -rf build && mkdir -p build
+          pip install -r backend/requirements.txt -t build
           cp backend/app.py build/app.py
           cd build
-          zip -r lambda.zip app.py
+          zip -r ../lambda.zip .
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -50,4 +50,4 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name "${{ secrets.LAMBDA_FUNCTION_NAME }}" \
-            --zip-file "fileb://build/lambda.zip"
+            --zip-file "fileb://lambda.zip"
