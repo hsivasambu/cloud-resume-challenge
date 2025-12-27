@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Blog | Harry Sivasambu" description="Articles and project write-ups.">
+  <h1 style="margin: 0 0 10px; font-size: 34px;">Blog</h1>
+  <p style="margin: 0 0 16px; color: var(--muted); max-width: 72ch;">
+    Project write-ups, engineering notes, and practical lessons learned.
+  </p>
+
+  <div style="display: grid; gap: 12px;">
+    {posts.map((post) => (
+      <a href={`/blog/${post.slug}`} style="text-decoration: none;">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <h2 style="margin: 0; font-size: 18px; color: var(--text);">{post.data.title}</h2>
+            <span class="pill">{post.data.date.toISOString().slice(0, 10)}</span>
+          </div>
+          {post.data.description && (
+            <p style="margin: 8px 0 0; color: var(--muted);">{post.data.description}</p>
+          )}
+          {post.data.tags?.length ? (
+            <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+              {post.data.tags.map((t) => (
+                <span class="pill">#{t}</span>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft && (p.data.tags ?? []).map(t => t.toLowerCase()).includes("project"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Projects | Harry Sivasambu" description="Projects and write-ups.">
+  <h1 style="margin: 0 0 10px; font-size: 34px;">Projects</h1>
+  <p style="margin: 0 0 16px; color: var(--muted); max-width: 72ch;">
+    Selected projects with implementation details, trade-offs, and lessons learned.
+  </p>
+
+  <div style="display: grid; gap: 12px;">
+    {posts.map((post) => (
+      <a href={`/blog/${post.slug}`} style="text-decoration: none;">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <h2 style="margin: 0; font-size: 18px; color: var(--text);">{post.data.title}</h2>
+            <span class="pill">{post.data.date.toISOString().slice(0, 10)}</span>
+          </div>
+          {post.data.description && (
+            <p style="margin: 8px 0 0; color: var(--muted);">{post.data.description}</p>
+          )}
+        </div>
+      </a>
+    ))}
+  </div>
+
+  {posts.length === 0 ? (
+    <p style="color: var(--muted);">No projects yet. Add the tag <code>project</code> to a blog post.</p>
+  ) : null}
+</BaseLayout>

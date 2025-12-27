@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Harry Sivasambu"
+  description="Cloud engineer portfolio, projects, and writing."
+>
+  <section class="card" style="padding: 22px;">
+    <p style="margin: 0; color: var(--muted); font-size: 14px;">Toronto, Ontario</p>
+    <h1 style="margin: 6px 0 8px; font-size: 42px; line-height: 1.15;">
+      Cloud engineering, infrastructure automation, and production-style serverless.
+    </h1>
+    <p style="margin: 0; color: var(--muted); max-width: 72ch;">
+      I build scalable AWS systems with Terraform, CI/CD, and clean operational workflows.
+      This site showcases projects and write-ups.
+    </p>
+
+    <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="pill" style="color: var(--text);" href="/blog">Read the blog</a>
+      <a class="pill" style="color: var(--text);" href="#projects">View projects</a>
+      <a class="pill" style="color: var(--text);" href="#contact">Contact</a>
+    </div>
+  </section>
+
+  <section id="projects" style="margin-top: 18px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px;">Featured Projects</h2>
+
+    <div class="grid">
+      <div class="card" style="grid-column: span 6;">
+        <h3 style="margin: 0 0 6px;">Cloud Resume Challenge</h3>
+        <p style="margin: 0 0 10px; color: var(--muted);">
+          Imported a production-style AWS stack into Terraform, validated zero-drift, and automated deploys.
+        </p>
+        <a href="/blog/cloud-resume-challenge">Read write-up →</a>
+      </div>
+
+      <div class="card" style="grid-column: span 6;">
+        <h3 style="margin: 0 0 6px;">Portfolio + Blog on AWS</h3>
+        <p style="margin: 0 0 10px; color: var(--muted);">
+          Astro static site, CloudFront + S3 hosting, Terraform-managed DNS and subdomains.
+        </p>
+        <a href="/blog">Browse posts →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="margin-top: 18px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px;">Contact</h2>
+    <div class="card">
+      <p style="margin: 0; color: var(--muted);">
+        Add links here: LinkedIn, GitHub, email.
+      </p>
+      <ul style="margin: 10px 0 0; padding-left: 18px;">
+        <li><a href="https://github.com/<your-handle>">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/<your-handle>/">LinkedIn</a></li>
+        <li><a href="mailto:<your-email>">Email</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+

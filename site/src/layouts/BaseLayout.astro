@@ -1,0 +1,127 @@
+---
+const {
+  title = "Harry Sivasambu",
+  description = "Cloud engineer portfolio, projects, and writing.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      :root {
+        --bg: #0b0f17;
+        --panel: #111827;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --border: rgba(255, 255, 255, 0.10);
+        --link: #93c5fd;
+        --max: 980px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: radial-gradient(1200px 600px at 20% 0%, rgba(59,130,246,0.20), transparent 60%),
+                    radial-gradient(900px 600px at 80% 10%, rgba(168,85,247,0.18), transparent 55%),
+                    var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      a { color: var(--link); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header {
+        position: sticky;
+        top: 0;
+        backdrop-filter: blur(10px);
+        background: rgba(11, 15, 23, 0.70);
+        border-bottom: 1px solid var(--border);
+        z-index: 10;
+      }
+      .nav {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 650;
+        letter-spacing: 0.2px;
+      }
+      .pill {
+        border: 1px solid var(--border);
+        background: rgba(17, 24, 39, 0.60);
+        padding: 6px 10px;
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .links {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      main {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 28px 20px 54px;
+      }
+      footer {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 24px 20px 40px;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+      }
+      .card {
+        border: 1px solid var(--border);
+        background: rgba(17, 24, 39, 0.65);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 14px;
+      }
+      @media (max-width: 860px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="nav">
+        <div class="brand">
+          <a href="/" aria-label="Home">Harry Sivasambu</a>
+          <span class="pill">AWS • Terraform • Serverless</span>
+        </div>
+        <nav class="links">
+          <a href="/blog">Blog</a>
+          <a href="/#projects">Projects</a>
+          <a href="/#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <div>© {new Date().getFullYear()} Harry Sivasambu</div>
+    </footer>
+  </body>
+</html>
