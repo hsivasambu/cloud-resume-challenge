@@ -59,7 +59,7 @@ jobs:
 
   deploy-blog:
     needs: detect-changes
-    if: needs:detect-changes.outputs.blog == 'true'
+    if: "needs:detect-changes.outputs.blog" == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
