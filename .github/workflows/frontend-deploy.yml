@@ -45,7 +45,7 @@ jobs:
         run: |
           aws s3 sync frontend/ s3://hsivasambu-resume-prod --delete
 
-      - name: Debug: confirm CLOUDFRONT_DISTRIBUTION_ID is set
+      - name: "Debug: confirm CLOUDFRONT_DISTRIBUTION_ID is set"
         env:
           DIST_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
