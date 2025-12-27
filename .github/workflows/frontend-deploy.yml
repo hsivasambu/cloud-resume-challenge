@@ -90,7 +90,7 @@ jobs:
         run: |
           aws s3 sync site/dist/ s3://${{ secrets.BLOG_BUCKET_NAME }} --delete
 
-      - name: Debug: confirm BLOG_CLOUDFRONT_DISTRIBUTION_ID is set
+      - name: "Debug: confirm BLOG_CLOUDFRONT_DISTRIBUTION_ID is set"
         env:
           BLOG_DIST_ID: ${{ secrets.BLOG_CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
