@@ -1,4 +1,6 @@
 ---
+import "../styles/theme.css";
+import "../styles/base.css";
 const {
   title = "Harry Sivasambu",
   description = "Cloud engineer portfolio, projects, and writing.",
@@ -13,115 +15,61 @@ const {
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <style>
-      :root {
-        --bg: #0b0f17;
-        --panel: #111827;
-        --text: #e5e7eb;
-        --muted: #9ca3af;
-        --border: rgba(255, 255, 255, 0.10);
-        --link: #93c5fd;
-        --max: 980px;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-        background: radial-gradient(1200px 600px at 20% 0%, rgba(59,130,246,0.20), transparent 60%),
-                    radial-gradient(900px 600px at 80% 10%, rgba(168,85,247,0.18), transparent 55%),
-                    var(--bg);
-        color: var(--text);
-        line-height: 1.6;
-      }
-      a { color: var(--link); text-decoration: none; }
-      a:hover { text-decoration: underline; }
-      header {
-        position: sticky;
-        top: 0;
-        backdrop-filter: blur(10px);
-        background: rgba(11, 15, 23, 0.70);
-        border-bottom: 1px solid var(--border);
-        z-index: 10;
-      }
-      .nav {
-        max-width: var(--max);
-        margin: 0 auto;
-        padding: 14px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 650;
-        letter-spacing: 0.2px;
-      }
-      .pill {
-        border: 1px solid var(--border);
-        background: rgba(17, 24, 39, 0.60);
-        padding: 6px 10px;
-        border-radius: 999px;
-        color: var(--muted);
-        font-size: 13px;
-      }
-      .links {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-      main {
-        max-width: var(--max);
-        margin: 0 auto;
-        padding: 28px 20px 54px;
-      }
-      footer {
-        max-width: var(--max);
-        margin: 0 auto;
-        padding: 24px 20px 40px;
-        color: var(--muted);
-        border-top: 1px solid var(--border);
-      }
-      .card {
-        border: 1px solid var(--border);
-        background: rgba(17, 24, 39, 0.65);
-        border-radius: 16px;
-        padding: 18px;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 14px;
-      }
-      @media (max-width: 860px) {
-        .grid { grid-template-columns: 1fr; }
-      }
-    </style>
   </head>
   <body>
-    <header>
-      <div class="nav">
+    <div class="layout">
+      <header class="sidebar">
         <div class="brand">
           <a href="/" aria-label="Home">Harry Sivasambu</a>
-          <span class="pill">AWS • Terraform • Serverless</span>
         </div>
         <nav class="links">
-          <a href="/blog">Blog</a>
-          <a href="/#projects">Projects</a>
-          <a href="/#contact">Contact</a>
+          <a href="/">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-6v-7H10v7H4a1 1 0 0 1-1-1v-10.5z" />
+            </svg>
+            Home
+          </a>
+          <a href="/#about">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm-7 9a7 7 0 0 1 14 0" />
+            </svg>
+            About Me
+          </a>
+          <a href="/blog">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 5h10M7 9h10M7 13h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+            </svg>
+            Writing
+          </a>
+          <div class="nav-section">
+            <span class="nav-title">Elsewhere</span>
+            <a href="https://www.linkedin.com/in/<your-handle>/">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9h4v11H4zM6 5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm6 4h4v2a4 4 0 0 1 4-2c3 0 4 2 4 5v6h-4v-6c0-2-1-3-2-3a2 2 0 0 0-2 2v7h-4z" />
+              </svg>
+              LinkedIn
+            </a>
+            <a href="https://github.com/<your-handle>">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2a10 10 0 0 0-3 19.5V18a3 3 0 0 1-1 0c-2 0-3-2-3-2a2.5 2.5 0 0 0-2-1.5s-1.5-1 .1-1a3 3 0 0 1 2 1c1.7 3 4.5 2 5.6 1.5a4 4 0 0 1 1-2.5c-3.5-.4-7-1.8-7-8a6 6 0 0 1 1.6-4 5.5 5.5 0 0 1 .2-4s1.3-.4 4.2 1.6a14 14 0 0 1 7.6 0c2.9-2 4.2-1.6 4.2-1.6a5.5 5.5 0 0 1 .2 4 6 6 0 0 1 1.6 4c0 6.2-3.5 7.6-7 8a4.5 4.5 0 0 1 1.2 3.5v5a10 10 0 0 0-3-19.5z" />
+              </svg>
+              Github
+            </a>
+          </div>
         </nav>
+      </header>
+
+      <div class="content">
+        <main>
+          <div class="container">
+            <slot />
+          </div>
+        </main>
+
+        <footer>
+          <div class="container">Ac {new Date().getFullYear()} Harry Sivasambu</div>
+        </footer>
       </div>
-    </header>
-
-    <main>
-      <slot />
-    </main>
-
-    <footer>
-      <div>© {new Date().getFullYear()} Harry Sivasambu</div>
-    </footer>
+    </div>
   </body>
 </html>
