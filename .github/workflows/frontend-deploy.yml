@@ -1,15 +1,36 @@
-name: Frontend deploy
+name: Frontend + Blog deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - "frontend/**"
+      - "site/**"
+      - ".github/workflows/frontend-deploy.yml"
 
 jobs:
-  deploy:
+  detect-changes:
     runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      blog: ${{ steps.filter.outputs.blog }}
+    steps:
+      - uses: actions/checkout@v4
 
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+            blog:
+              - 'site/**'
+
+  deploy-frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -18,21 +39,65 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: us-east-2
 
-      - name: Deploy frontend to S3
+      - name: Deploy resume site to S3
         run: |
           aws s3 sync frontend/ s3://hsivasambu-resume-prod --delete
 
-      - name: "Debug: confirm DIST_ID is set"
+      - name: Debug: confirm CLOUDFRONT_DISTRIBUTION_ID is set
         env:
           DIST_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
-          test -n "$DIST_ID" && echo "DIST_ID is set"
+          test -n "$DIST_ID" && echo "CLOUDFRONT_DISTRIBUTION_ID is set"
 
-
-      - name: Invalidate CloudFront cache
+      - name: Invalidate resume CloudFront cache
         run: |
           aws cloudfront create-invalidation \
             --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" \
+            --paths "/*"
+
+  deploy-blog:
+    needs: detect-changes
+    if: needs:detect-changes.outputs.blog == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install dependencies
+        working-directory: site
+        run: npm ci
+
+      - name: Build Astro site
+        working-directory: site
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Deploy blog to S3
+        run: |
+          aws s3 sync site/dist/ s3://${{ secrets.BLOG_BUCKET_NAME }} --delete
+
+      - name: Debug: confirm BLOG_CLOUDFRONT_DISTRIBUTION_ID is set
+        env:
+          BLOG_DIST_ID: ${{ secrets.BLOG_CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          test -n "$BLOG_DIST_ID" && echo "BLOG_CLOUDFRONT_DISTRIBUTION_ID is set"
+
+      - name: Invalidate blog CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ secrets.BLOG_CLOUDFRONT_DISTRIBUTION_ID }}" \
             --paths "/*"
