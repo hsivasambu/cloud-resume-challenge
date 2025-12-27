@@ -1,236 +1,319 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harry Sivasambu's Resume</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Harry Sivasambu | Resume</title>
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
+  <meta name="description" content="Resume for Harry Sivasambu. Cloud engineering, infrastructure automation, and serverless." />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --panel: rgba(17, 24, 39, 0.70);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(255, 255, 255, 0.10);
+      --link: #93c5fd;
+      --max: 980px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(59,130,246,0.20), transparent 60%),
+        radial-gradient(900px 600px at 80% 10%, rgba(168,85,247,0.18), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-        h1 {
-            font-size: 36px;
-            text-align: center;
-            color: #000be8;
-            margin-bottom: 20px;
-        }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(11, 15, 23, 0.70);
+      border-bottom: 1px solid var(--border);
+    }
 
-        .contact-info p {
-            margin: 0 20px;
-            font-size: 18px;
-        }
+    .nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-        .contact-info a {
-            color: #0073e6;
-            text-decoration: none;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
 
-        .section {
-            margin-bottom: 40px;
-        }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      background: rgba(17, 24, 39, 0.60);
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
 
-        h2 {
-            font-size: 28px;
-            color: #0073e6;
-            border-bottom: 2px solid #0073e2;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+    .links {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        h3 {
-            font-size: 22px;
-            margin-top: 20px;
-            color: #333;
-        }
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 20px 54px;
+    }
 
-        h4 {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #555;
-            font-style: italic;
-        }
+    .card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
 
-        ul {
-            list-style-type: disc;
-            padding-left: 20px;
-            margin-top: 10px;
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
 
-        ul li {
-            margin: 8px 0;
-            line-height: 1.6;
-        }
+    .col-12 { grid-column: span 12; }
+    .col-8  { grid-column: span 8; }
+    .col-6  { grid-column: span 6; }
+    .col-4  { grid-column: span 4; }
 
-        p {
-            font-size: 18px;
-            margin: 10px 0;
-        }
+    h1 {
+      margin: 8px 0 8px;
+      font-size: 40px;
+      line-height: 1.15;
+      letter-spacing: -0.3px;
+    }
 
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #0073e6;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      letter-spacing: 0.1px;
+      color: var(--text);
+    }
 
-        .btn:hover {
-            background-color: #005bb5;
-        }
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      color: var(--text);
+    }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .contact-info {
-                flex-direction: column;
-                align-items: flex-start;
-                margin-bottom: 20px;
-            }
+    .muted { color: var(--muted); }
+    .kicker { font-size: 14px; color: var(--muted); margin: 0; }
 
-            .contact-info p {
-                margin: 10px 0;
-            }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(59,130,246,0.18);
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn:hover { background: rgba(59,130,246,0.26); text-decoration: none; }
 
-            h1 {
-                font-size: 28px;
-            }
+    ul { margin: 10px 0 0; padding-left: 18px; }
+    li { margin: 8px 0; color: var(--muted); }
+    .job { margin-top: 14px; }
+    .job-header { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .job-role { margin-top: 4px; color: var(--muted); font-style: italic; }
 
-            h2 {
-                font-size: 24px;
-            }
+    footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
 
-            h3 {
-                font-size: 20px;
-            }
-
-            h4 {
-                font-size: 16px;
-            }
-
-            p {
-                font-size: 16px;
-            }
-
-            .btn {
-                font-size: 16px;
-            }
-        }
-    </style>
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      .col-8, .col-6, .col-4 { grid-column: span 12; }
+      h1 { font-size: 32px; }
+      .pill { font-size: 12px; }
+    }
+  </style>
 </head>
+
 <body>
-<div>
-  Visitors: <span id="visitor-count">—</span>
-</div>    
-<div class="container">
-        <h1>Harry Sivasambu, PMP, M.Eng</h1>
-        <div class="contact-info">
-            <p>Email: <a href="mailto:h.sivasambu@gmail.com">h.sivasambu@gmail.com</a></p>
-            <p>Phone: (647) 203-6302</p>
-            <p>Location: Toronto, ON</p>
-        </div>
-
-        <div class="section">
-            <h2>Work Experience</h2>
-
-            <h3>Holland Bloorview Kids Rehabilitation Hospital, Toronto, ON (Jun. 2021 - Present)</h3>
-            <h4>Research Project Manager – PROPEL Lab</h4>
-            <ul>
-                <li>Managed a diverse portfolio of R&D projects, overseeing schedule, budget, ethics, and risk management to develop advanced medical technologies for prosthetic and orthotic applications.</li>
-                <li>Enhanced clinical practices by integrating digital technologies (3D scanning, CAD software, 3D printing), significantly improving prosthetic/orthotic device production lead times and patient satisfaction.</li>
-                <li>Spearheaded the development of a market-ready Android application for amputee gait rehabilitation using Kotlin. Managed an agile team of software developers and UI designers from concept to potential investor demonstrations.</li>
-                <li>Secured over $4M in funding through compelling commercial and government research grant proposals, utilizing strong technical writing and strategic planning skills.</li>
-            </ul>
-
-            <h3>Research Coordinator – PROPEL Lab (Apr. 2019 - May. 2021)</h3>
-            <ul>
-                <li>Crafted and delivered impactful communication materials, effectively conveying complex research findings to diverse audiences including engineers, clinicians, and senior management to inform strategic decisions.</li>
-                <li>Conducted comprehensive and frequent literature reviews in cutting-edge fields including machine learning, data analytics, and biosensing technologies, ensuring the incorporation of the latest scientific advancements and methodologies into projects and research initiatives.</li>
-            </ul>
-
-            <h3>Ontario Power Generation, Pickering, ON (Apr. 2016 - Sept. 2017)</h3>
-            <h4>Junior Project Manager</h4>
-            <ul>
-                <li>Supported the delivery of major construction and infrastructure projects, ensuring compliance with budgets, schedules, and risk management protocols.</li>
-                <li>Authored Business Case Summaries that successfully acquired over $5M in funding for critical system upgrades, emphasizing technical and financial rationales.</li>
-                <li>Conducted rigorous review of engineering drawings for electrical, fire, and instrumentation/control systems to guarantee specifications adherence.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Education</h2>
-
-            <h3>University of Toronto, Toronto, ON</h3>
-            <p>M.Eng, Biomedical Engineering (June 2019)</p>
-
-            <h3>McMaster University, Hamilton, ON</h3>
-            <p>B.Eng, Electrical and Biomedical Engineering (June 2018)</p>
-        </div>
-
-        <div class="section">
-            <h2>Certifications, Skills & Interests</h2>
-            <ul>
-                <li>Certifications: Project Management Professional, Google Cloud Fundamentals</li>
-                <li>Hard Skills: Agile and Scrum, Programming (Python, Java, C), Machine Learning (PyTorch), Microsoft Office, Risk Management, Strategic Planning, Project Management Tools (Atlassian)</li>
-                <li>Soft Skills: Cross-Functional Management, Stakeholder Influence, Leadership, Data-Driven, Self-Motivated, Detail Oriented, Consulting Mindset, Diversity & Inclusion Advocacy</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <a href="#" class="btn">Download Resume</a>
-        </div>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <a href="/" aria-label="Home">Harry Sivasambu</a>
+        <span class="pill">AWS • Terraform • Serverless</span>
+      </div>
+      <nav class="links">
+        <a href="https://blog.harry-sivasambu.com">Blog</a>
+        <a href="https://blog.harry-sivasambu.com/projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-<script>
-  const API_URL = "https://0hyzxilwi0.execute-api.us-east-1.amazonaws.com/count";
+  </header>
 
-  fetch(API_URL)
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("visitor-count").textContent = data.visits;
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById("visitor-count").textContent = "n/a";
-    });
-</script>
+  <main>
+    <section class="card">
+      <p class="kicker">Toronto, Ontario</p>
+      <h1>Harry Sivasambu, PMP, M.Eng</h1>
+      <p class="muted" style="max-width: 75ch; margin: 0;">
+        Cloud engineering, infrastructure automation, and production-style serverless. Building clean, reliable systems with IaC and CI/CD.
+      </p>
 
+      <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <span class="pill">Visitors: <strong id="visitor-count" style="color: var(--text);">—</strong></span>
+        <a class="btn" href="https://blog.harry-sivasambu.com">Read the blog</a>
+        <a class="btn" href="#experience">Resume</a>
+      </div>
+
+      <div class="grid">
+        <div class="card col-4" style="box-shadow:none;">
+          <h2 style="margin-bottom: 6px;">Email</h2>
+          <div class="muted"><a href="mailto:h.sivasambu@gmail.com">h.sivasambu@gmail.com</a></div>
+        </div>
+
+        <div class="card col-4" style="box-shadow:none;">
+          <h2 style="margin-bottom: 6px;">Phone</h2>
+          <div class="muted">(647) 203-6302</div>
+        </div>
+
+        <div class="card col-4" style="box-shadow:none;">
+          <h2 style="margin-bottom: 6px;">Location</h2>
+          <div class="muted">Toronto, ON</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" style="margin-top: 16px;">
+      <div class="card">
+        <h2>Work Experience</h2>
+
+        <div class="job">
+          <div class="job-header">
+            <h3>Holland Bloorview Kids Rehabilitation Hospital, Toronto, ON</h3>
+            <span class="pill">Jun 2021 – Present</span>
+          </div>
+          <div class="job-role">Research Project Manager – PROPEL Lab</div>
+          <ul>
+            <li>Managed a diverse portfolio of R&amp;D projects, overseeing schedule, budget, ethics, and risk management to develop advanced medical technologies for prosthetic and orthotic applications.</li>
+            <li>Enhanced clinical practices by integrating digital technologies (3D scanning, CAD software, 3D printing), improving production lead times and patient satisfaction.</li>
+            <li>Spearheaded development of an Android application for amputee gait rehabilitation using Kotlin; led an agile team from concept to investor-ready demos.</li>
+            <li>Secured over $4M in funding through commercial and government research grant proposals.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <h3>Holland Bloorview Kids Rehabilitation Hospital, Toronto, ON</h3>
+            <span class="pill">Apr 2019 – May 2021</span>
+          </div>
+          <div class="job-role">Research Coordinator – PROPEL Lab</div>
+          <ul>
+            <li>Created communication materials translating research outcomes for engineers, clinicians, and leadership to support decision-making.</li>
+            <li>Conducted literature reviews across machine learning, data analytics, and biosensing to incorporate current methods into initiatives.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <h3>Ontario Power Generation, Pickering, ON</h3>
+            <span class="pill">Apr 2016 – Sep 2017</span>
+          </div>
+          <div class="job-role">Junior Project Manager</div>
+          <ul>
+            <li>Supported delivery of construction and infrastructure projects with schedule, budget, and risk controls.</li>
+            <li>Authored business case summaries that secured over $5M for critical system upgrades.</li>
+            <li>Reviewed engineering drawings for electrical, fire, and instrumentation/control systems to ensure specification adherence.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top: 16px;">
+      <div class="card">
+        <h2>Education</h2>
+        <div class="grid" style="margin-top: 0;">
+          <div class="col-6">
+            <h3>University of Toronto, Toronto, ON</h3>
+            <div class="muted">M.Eng, Biomedical Engineering (June 2019)</div>
+          </div>
+          <div class="col-6">
+            <h3>McMaster University, Hamilton, ON</h3>
+            <div class="muted">B.Eng, Electrical and Biomedical Engineering (June 2018)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top: 16px;">
+      <div class="card">
+        <h2>Certifications, Skills &amp; Interests</h2>
+        <ul>
+          <li><strong style="color: var(--text);">Certifications:</strong> Project Management Professional, Google Cloud Fundamentals</li>
+          <li><strong style="color: var(--text);">Hard Skills:</strong> Agile and Scrum, Programming (Python, Java, C), Machine Learning (PyTorch), Microsoft Office, Risk Management, Strategic Planning, Project Management Tools (Atlassian)</li>
+          <li><strong style="color: var(--text);">Soft Skills:</strong> Cross-Functional Management, Stakeholder Influence, Leadership, Data-Driven, Self-Motivated, Detail Oriented, Consulting Mindset, Diversity &amp; Inclusion Advocacy</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top: 16px;">
+      <div class="card">
+        <h2>Contact</h2>
+        <p class="muted" style="margin: 0;">
+          Add your GitHub and LinkedIn here to keep the brand consistent with the blog.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> Harry Sivasambu</div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const API_URL = "https://0hyzxilwi0.execute-api.us-east-1.amazonaws.com/count";
+
+    fetch(API_URL)
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById("visitor-count").textContent = data.visits;
+      })
+      .catch(() => {
+        document.getElementById("visitor-count").textContent = "n/a";
+      });
+  </script>
 </body>
 </html>
-
-
-
-
