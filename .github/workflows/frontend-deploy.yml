@@ -45,7 +45,7 @@ jobs:
         run: |
           aws s3 sync frontend/ s3://hsivasambu-resume-prod --delete
 
-      - name: "Debug: confirm CLOUDFRONT_DISTRIBUTION_ID is set"
+      - name: Debug: confirm CLOUDFRONT_DISTRIBUTION_ID is set
         env:
           DIST_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
@@ -59,7 +59,7 @@ jobs:
 
   deploy-blog:
     needs: detect-changes
-    if: "needs:detect-changes.outputs.blog" == 'true'
+    if: needs.detect-changes.outputs.blog == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,7 +90,7 @@ jobs:
         run: |
           aws s3 sync site/dist/ s3://${{ secrets.BLOG_BUCKET_NAME }} --delete
 
-      - name: "Debug: confirm BLOG_CLOUDFRONT_DISTRIBUTION_ID is set"
+      - name: Debug: confirm BLOG_CLOUDFRONT_DISTRIBUTION_ID is set
         env:
           BLOG_DIST_ID: ${{ secrets.BLOG_CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
