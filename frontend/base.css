@@ -218,11 +218,11 @@ main .container {
 }
 
 .card {
-  border: 1px solid var(--border);
+  border: 2px solid #cbd5e1;
   background: var(--panel);
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
 }
 
 .pill {
@@ -282,7 +282,19 @@ main .container {
   border-top: 1px solid var(--border);
 }
 
-.job- param($m) $m.Value + $addition 
+.job-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.job-date {
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 600;
+}
 
 .job-role {
   color: var(--muted);
@@ -301,8 +313,8 @@ main .container {
 .section + .section::before {
   content: "";
   display: block;
-  height: 1px;
-  background: var(--border);
+  height: 2px;
+  background: rgba(0, 179, 0, 0.2);
   margin-bottom: 22px;
 }
 
@@ -338,6 +350,7 @@ main .container {
   opacity: 1;
   transform: translateY(0);
 }
+
 
 
 
