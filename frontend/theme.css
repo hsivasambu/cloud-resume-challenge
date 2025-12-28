@@ -1,0 +1,20 @@
+:root {
+  /* colors */
+  --bg: #f5f6f8;
+  --panel: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --link: #0f172a;
+  --accent: #00b300;
+
+  /* layout */
+  --max: 980px;
+
+  /* effects */
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  /* type */
+  --font: "IBM Plex Sans", "Manrope", "Segoe UI", "Helvetica", "Arial",
+    sans-serif;
+}
