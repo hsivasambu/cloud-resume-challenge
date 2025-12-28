@@ -161,6 +161,14 @@ footer .container {
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
 }
 
+.card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 16px 0;
+}
+
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -173,3 +181,6 @@ footer .container {
   font-size: 13px;
   white-space: nowrap;
 }
+
+
+
