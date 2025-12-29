@@ -18,7 +18,7 @@ const posts = (await getCollection("blog"))
       <a href={`/blog/${post.slug}`} style="text-decoration: none;">
         <div class="card">
           <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-            <h2 style="margin: 0; font-size: 18px; color: var(--text);">{post.data.title}</h2>
+            <h2 style="margin: 0; font-size: 18px; color: var(--accent);">{post.data.title}</h2>
             <span class="pill">{post.data.date.toISOString().slice(0, 10)}</span>
           </div>
           {post.data.description && (
