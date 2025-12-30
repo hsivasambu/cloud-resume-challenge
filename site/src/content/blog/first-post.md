@@ -1,7 +1,7 @@
 ---
 title: "Building Again: Why I’m Returning to Hands-On Learning"
 description: "Kicking off the blog."
-date: 2025-07-16
+date: 2025-05-16
 tags: ["learning", "internal", "reflection"]
 draft: false
 ---

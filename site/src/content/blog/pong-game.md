@@ -1,7 +1,7 @@
 ---
 title: 'print("Hello, World!")...again'
 description: "Learning Python for the first time, the second time"
-date: 2025-07-29
+date: 2025-06-29
 tags: ["python", "re-learning", "gaming"]
 draft: false
 ---

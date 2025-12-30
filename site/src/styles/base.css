@@ -35,14 +35,14 @@ body {
 
 .brand {
   margin-bottom: 24px;
-  font-weight: 600;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .brand a {
   color: var(--accent);
-  font-size: 16px;
+  font-size: 17px;
   letter-spacing: 1.6px;
 }
 

@@ -1,7 +1,7 @@
 ---
 title: "Building a Patient Logger: Designing a Full-Stack System with Real Constraints"
 description: "Personal projects relating to professional work"
-date: 2025-09-22
+date: 2025-07-22
 tags: ["healthcare", "web design", "reflection"]
 draft: false
 ---
