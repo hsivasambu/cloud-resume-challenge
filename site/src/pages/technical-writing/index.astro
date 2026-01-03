@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Technical Writing | Harry Sivasambu" description="Research-driven essays on systems, AI, and financial literacy.">
+  <h1 style="margin: 0 0 10px; font-size: 34px;">Technical Writing</h1>
+  <p style="margin: 0 0 14px; color: var(--muted);">
+    Technical deep dives exploring system design, cloud architecture, and emerging AI concepts—written to document how I reason about tradeoffs, constraints, and real-world engineering decisions.
+  </p>
+  <div style="display: grid; gap: 12px;">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+        <h2 style="margin: 0; font-size: 18px; color: var(--accent);">Resilient Event Pipelines</h2>
+        <span class="pill">System Design</span>
+      </div>
+      <p style="margin: 8px 0 0; color: var(--muted);">
+        A breakdown of failure modes, backpressure patterns, and recovery strategies for event-driven architectures.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+        <h2 style="margin: 0; font-size: 18px; color: var(--accent);">Human-in-the-Loop Guardrails</h2>
+        <span class="pill">AI Developments</span>
+      </div>
+      <p style="margin: 8px 0 0; color: var(--muted);">
+        Research notes on where AI should defer to human review, and how to design trustable escalation paths.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+        <h2 style="margin: 0; font-size: 18px; color: var(--accent);">Finance Basics for Builders</h2>
+        <span class="pill">Financial Literacy</span>
+      </div>
+      <p style="margin: 8px 0 0; color: var(--muted);">
+        A practical primer on runway, margin, and cash flow decisions that shape product strategy.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

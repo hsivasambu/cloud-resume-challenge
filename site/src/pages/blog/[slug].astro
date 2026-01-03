@@ -14,24 +14,26 @@ const { Content } = await post.render();
 ---
 
 <BaseLayout title={`${post.data.title} | Harry Sivasambu`} description={post.data.description ?? ""}>
-  <a href="/blog" style="display: inline-block; margin-bottom: 12px;">← Back to Blog</a>
+  <div class="blog-post">
+    <a href="/blog" style="display: inline-block; margin-bottom: 12px;">← Back to Blog</a>
 
-  <article class="card">
-    <h1 style="margin: 0 0 6px; font-size: 30px;">{post.data.title}</h1>
-    <p style="margin: 0; color: var(--muted);">
-      {post.data.date.toISOString().slice(0, 10)}
-    </p>
+    <article class="card">
+      <h1 style="margin: 0 0 6px; font-size: 30px;">{post.data.title}</h1>
+      <p style="margin: 0; color: var(--muted);">
+        {post.data.date.toISOString().slice(0, 10)}
+      </p>
 
-    {post.data.tags?.length ? (
-      <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
-        {post.data.tags.map((t) => (
-          <span class="pill">#{t}</span>
-        ))}
+      {post.data.tags?.length ? (
+        <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+          {post.data.tags.map((t) => (
+            <span class="pill">#{t}</span>
+          ))}
+        </div>
+      ) : null}
+
+      <div style="margin-top: 16px;">
+        <Content />
       </div>
-    ) : null}
-
-    <div style="margin-top: 16px;">
-      <Content />
-    </div>
-  </article>
+    </article>
+  </div>
 </BaseLayout>

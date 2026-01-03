@@ -130,6 +130,17 @@ a:hover {
   color: var(--accent);
 }
 
+.blog-post a,
+.blog-post a:visited {
+  color: #1a73e8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blog-post a:hover {
+  color: #0b5bd3;
+}
+
 h1,
 h2,
 h3 {

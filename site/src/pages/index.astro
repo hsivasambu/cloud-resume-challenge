@@ -8,15 +8,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 >
   <section id="about" class="card" style="padding: 22px;">
     <p style="margin: 0; color: var(--muted);">
-      Hi, I'm Harry, a Technical Project Manager who stays current by building, shipping, and learning in public.
-      I lead teams with clarity, unblock delivery, and turn complex technology into outcomes recruiters can trust.
+      Hi, I'm Harry, a Technical Project Manager from Toronto, Canada who stays current by building, shipping, and learning in public.
+      I lead teams with clarity, unblock delivery, and turn complex technology into outcomes teams can trust.
     </p>
     <p style="margin: 10px 0 0; color: var(--muted);">
       I also love the NBA, Formula 1, travelling the world, and hunting down the best local street food in every
       city I visit.
     </p>
     <p style="margin: 10px 0 0; color: var(--muted);">
-      Explore the projects and posts below to see how I work, what I ship, and how I keep pace with modern platforms.
+      Explore the projects and posts below to see how I work, what I learn, and how I keep pace with modern platforms.
     </p>
   </section>
 
@@ -38,6 +38,42 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           Python, web design, AWS, and much more.
         </p>
         <a href="/blog">Browse posts →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="technical-writing" style="margin-top: 18px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px;">Technical Deep Dives</h2>
+    <p style="margin: 0 0 14px; color: var(--muted);">
+      Technical deep dives exploring system design, cloud architecture, and emerging AI concepts?written to document how I reason about tradeoffs, constraints, and real-world engineering decisions.
+    </p>
+
+    <div class="grid" style="display: grid; gap: 12px; grid-template-columns: repeat(12, minmax(0, 1fr));">
+      <div class="card" style="grid-column: span 4;">
+        <span class="pill">System Design</span>
+        <h3 style="margin: 10px 0 6px;">Resilient Event Pipelines</h3>
+        <p style="margin: 0 0 10px; color: var(--muted);">
+          Designing for backpressure, retries, and graceful degradation in high-throughput systems.
+        </p>
+        <a href="/technical-writing">Read Article</a>
+      </div>
+
+      <div class="card" style="grid-column: span 4;">
+        <span class="pill">AI Developments</span>
+        <h3 style="margin: 10px 0 6px;">Human-in-the-Loop Guardrails</h3>
+        <p style="margin: 0 0 10px; color: var(--muted);">
+          Mapping where AI helps, where it harms, and how to design reliable review loops.
+        </p>
+        <a href="/technical-writing">Read Article</a>
+      </div>
+
+      <div class="card" style="grid-column: span 4;">
+        <span class="pill">Financial Literacy</span>
+        <h3 style="margin: 10px 0 6px;">Finance Basics for Builders</h3>
+        <p style="margin: 0 0 10px; color: var(--muted);">
+          Translating cash flow, runway, and unit economics into product decisions.
+        </p>
+        <a href="/technical-writing">Read Article</a>
       </div>
     </div>
   </section>
