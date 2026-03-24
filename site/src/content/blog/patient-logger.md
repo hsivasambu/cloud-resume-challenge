@@ -28,7 +28,7 @@ This project explores how a centralized, role-aware system could improve reliabi
 
 ---
 
-That led to this **Patient Logger** app — A multi-tenant clinical task tracking system designed to model how healthcare applications handle user roles, data isolation, and auditability. The goal was not to build a production healthcare app, but to design something that _behaves_ like one: role-aware, auditable, and structured enough to scale. Think Epic Rover lite. Rover operates in a high-stakes environment with real patients, regulatory requirements, and deep integration with clinical data.
+That led to this **Patient Logger** app — A multi-tenant clinical task tracking system designed to model how healthcare applications handle user roles, data isolation, and auditability. The system is intentionally scoped, but designed using patterns found in production healthcare platforms. Think Epic Rover lite. Rover operates in a high-stakes environment with real patients, regulatory requirements, and deep integration with clinical data.
 
 My Patient Logger doesn’t do all of that — but it implements the same core patterns: patient-linked task logs, authenticated clinical users, and clear, auditable records of actions. It’s a sandboxed way to explore how such systems behave before tackling full interoperability with real clinical platforms.
 
@@ -40,16 +40,17 @@ This project spans both backend and frontend, with a strong focus on correctness
 
 ![Patient Logger Architecture Diagram](/images/patient-logger/architecture.svg)
 
+The system is structured to separate concerns between user interaction, business logic, and data enforcement.
+
+The backend acts as the primary enforcement layer for authentication and authorization, while PostgreSQL Row Level Security ensures tenant isolation at the data layer.
+
+This dual-layer approach reduces the risk of data leakage and simplifies application logic.
+
 ---
 
 ## Project overview
 
-Pixel Logger is a full-stack application designed to manage:
-
-- Clinicians
-- Patients
-- Task logs tied to clinical workflows
-
+Patient Logger models core healthcare workflows around patients, clinicians, and task logs, with a focus on access control, data integrity, and auditability.
 It models real constraints found in healthcare systems such as role-based access, tenant isolation, and data integrity.
 
 The system is intentionally split into:
@@ -59,11 +60,15 @@ The system is intentionally split into:
 
 ## System Design Overview
 
-- Clinician interacts with React UI
-- Requests go through authenticated API layer
-- Backend enforces role + tenant isolation
-- PostgreSQL applies Row Level Security for data separation
-- Redis supports caching/session performance
+Patient Logger is built as a layered clinical workflow system with clear separation between the interface, application logic, and data controls.
+
+The React frontend is responsible for usability: guiding clinicians through task-oriented workflows, showing only role-appropriate actions, and keeping interactions fast and clear. The backend REST API acts as the main control layer, enforcing authentication, validation, and workflow rules before requests reach the database.
+
+To reduce risk, tenant isolation is enforced at both the application and database layers. User identity and role checks happen in the API, while PostgreSQL Row Level Security ensures each hospital only accesses its own data. This dual-layer approach strengthens data boundaries and better reflects how real multi-tenant healthcare systems are designed.
+
+At the data layer, the system centers on users, patients, and task logs, with each log tied to a patient record and clinical user context. This supports traceability, auditability, and cleaner ownership rules across the system.
+
+Supporting services like Redis and Docker improve extensibility and operational consistency. Redis provides a foundation for future caching and performance improvements, while Docker ensures the application stack can be run and reset reliably across environments.
 
 ![Patient Logger menu screen](/images/patient-logger/login.jpg)
 
@@ -138,120 +143,73 @@ A trigger automatically assigns `hospital_id` on new task logs based on the asso
 
 ## ![Patient Logger dashboard](/images/patient-logger/dashboard.jpg)
 
-## Why Docker mattered
+### Key Design Decisions & Tradeoffs
 
-Docker was a central part of this project.
+### Enforcing tenant isolation at the database layer (RLS)
 
-Using `docker-compose`, I containerized:
+Tenant isolation is handled using PostgreSQL Row Level Security, scoped by a session-level `hospital_id`.
 
-- PostgreSQL
-- Redis
-- The application runtime
+- **Why:** Prevents cross-tenant data access even if application logic fails
+- **Tradeoff:** Adds complexity when debugging queries and requires careful policy design
 
-This provided:
-
-- Consistent local environments
-- No “works on my machine” drift
-- Easy resets for schema experiments
-- Confidence that the app behaves the same across machines
-
-Migrations are auto-run during container startup, making schema evolution fast and repeatable.
-
-Scripts like:
-
-- `db:up`
-- `db:down`
-- `db:reset`
-
-made iteration safe and fast.
+This approach prioritizes safety over simplicity, which aligns with how sensitive data systems are typically designed.
 
 ---
 
-## Frontend: making complexity usable
+### Dual-layer authorization (API + database)
 
-The frontend focuses on clarity, speed, and usability in a clinical context.
+Authorization is enforced in both the API layer (JWT + role checks) and the database layer (RLS).
 
-### Stack
+- **Why:** Defense-in-depth reduces reliance on any single layer of protection
+- **Tradeoff:** Requires maintaining consistency between application logic and database policies
 
-- **React 19**
-- **React Router v7**
-- **Material UI v7 (MUI)**
-- **Emotion**
-- **Axios**
-- **date-fns**
-
-### Architecture
-
-- `App.js` sets global theme, routing, and layout
-- `AuthContext` manages auth state with `useReducer`
-- Auth tokens persist in `localStorage`
-- API calls go through a centralized Axios client with interceptors
-
-The UI uses:
-
-- Role-based route guards
-- Consistent layout via AppBar + responsive Drawer
-- Automatic redirects for unauthorized access
+This mirrors patterns used in systems where data integrity is critical.
 
 ---
 
-## Core UI flows
+### Server-side ownership enforcement
 
-- **Login & Register**
-  - Validation, error feedback, demo credentials
-  - Clean redirect flow on auth state changes
+All ownership checks (e.g., who can modify a task log) are handled on the backend rather than trusted from the client.
 
-- **Dashboard**
-  - Summary metrics (patients, tasks, activity)
-  - Quick-access actions
-  - Recent activity previews
+- **Why:** Prevents client-side manipulation and ensures consistent enforcement
+- **Tradeoff:** Increases backend complexity and requires more explicit validation logic
 
-- **Patient management**
-  - Searchable table view
-  - Detail preview modal
-  - Admin-only create/edit/delete
-  - MRN generation helpers
-
-- **Task logs**
-  - Color-coded task types
-  - Clear timestamps and clinician attribution
-  - Empty states for clarity
+This keeps the system predictable and secure as it scales.
 
 ---
 
-## Design decisions I’m glad I made
+### Containerized environment with Docker
 
-- **Clean visual hierarchy**  
-  Medical UIs need clarity before creativity.
+The application, database, and Redis are all run in containers using `docker-compose`.
 
-- **Role-aware navigation**  
-  Users only see what they need, when they need it.
+- **Why:** Ensures consistent environments and enables fast iteration on schema and infrastructure changes
+- **Tradeoff:** Adds initial setup overhead and requires coordination across services
 
-- **Centralized API layer**  
-  Made debugging and iteration dramatically easier.
+This significantly reduced environment-related issues and made experimentation safer.
 
-- **Explicit error states**  
-  Silent failures are dangerous in clinical tools.
+---
+
+### Centralized API layer for frontend communication
+
+All frontend requests go through a single configured Axios client with interceptors.
+
+- **Why:** Standardizes error handling, auth token management, and request structure
+- **Tradeoff:** Adds abstraction that can obscure request-level debugging if not well understood
+
+This made the system easier to extend and debug over time.
+
+---
+
+### Keeping the system intentionally scoped
+
+The system focuses on core workflows (patients, users, task logs) rather than attempting full clinical complexity.
+
+- **Why:** Allows deeper focus on correctness, data modeling, and system behavior
+- **Tradeoff:** Does not yet reflect full integration complexity (e.g., external systems, real-time feeds)
+
+This keeps the project aligned with its goal: modeling core patterns found in production systems without unnecessary overhead.
 
 ## ![Patient Logger Log](/images/patient-logger/patient-task-log.jpg)
-
-## Challenges worth calling out
-
-### 1. Multi-tenant boundaries
-
-Designing RLS policies that were flexible but safe required careful thought. This was one of the most valuable learning areas of the project, and relevant for me as I have worked with several large healthcare systems that all vary how they handle multi-tenancy setup.
-
-### 2. Docker + environment alignment
-
-Making sure environment variables matched across Node, Postgres, and Docker Compose took iteration.
-
-### 3. Auth edge cases
-
-Token expiration, invalid states, and role enforcement exposed subtle bugs early.
-
-### 4. UI clarity vs feature depth
-
-Balancing simplicity with functionality required constant pruning.
 
 ---
 
