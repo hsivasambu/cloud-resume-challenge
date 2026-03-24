@@ -21,24 +21,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <section id="featured-work" style="margin-top: 28px;">
     <h2 style="margin: 0 0 10px; font-size: 22px;">Featured Work</h2>
-    <div class="card">
-      <h3 style="margin: 0 0 8px;">Patient Logger App</h3>
-      <p style="margin: 0 0 10px; color: var(--muted);">
-        A full-stack clinical task tracking application designed around real healthcare system constraints.
-      </p>
-      <ul style="margin: 0 0 12px; padding-left: 18px; color: var(--muted);">
-        <li>Built a Node.js + PostgreSQL backend with JWT auth, role-based access control, and Row Level Security for multi-tenant hospital data isolation</li>
-        <li>Designed a React frontend with role-aware navigation, centralized API layer, and clinical-grade UX patterns</li>
-        <li>Containerized the full stack with Docker Compose, including auto-run migrations and repeatable local environment setup</li>
-      </ul>
-      <a href="/blog/patient-logger">Read write-up →</a>
+    <div class="card" style="display: flex; gap: 24px; align-items: center;">
+      <div style="flex: 1; min-width: 0;">
+        <h3 style="margin: 0 0 8px;">Patient Logger App</h3>
+        <p style="margin: 0 0 10px; color: var(--muted);">
+          A full-stack clinical task tracking application designed around real healthcare system constraints.
+        </p>
+        <ul style="margin: 0 0 12px; padding-left: 18px; color: var(--muted);">
+          <li>Built a Node.js + PostgreSQL backend with JWT auth, role-based access control, and Row Level Security for multi-tenant hospital data isolation</li>
+          <li>Designed a React frontend with role-aware navigation, centralized API layer, and clinical-grade UX patterns</li>
+          <li>Containerized the full stack with Docker Compose, including auto-run migrations and repeatable local environment setup</li>
+        </ul>
+        <a href="/blog/patient-logger">Read write-up →</a>
+      </div>
+      <a href="/blog/patient-logger" style="width: 45%; flex-shrink: 0; display: block;">
+        <img
+          src="/images/patient-logger/dashboard.jpg"
+          alt="Patient Logger dashboard screenshot"
+          style="width: 100%; border-radius: 6px; display: block;"
+        />
+      </a>
     </div>
   </section>
 
   <section id="other-projects" style="margin-top: 28px;">
     <h2 style="margin: 0 0 10px; font-size: 22px;">Other Projects</h2>
     <div class="card">
-      <h3 style="margin: 0 0 6px;">Cloud Resume Challenge <span style="font-weight: 400; color: var(--muted);">(AWS)</span></h3>
+      <h3 style="margin: 0 0 6px; color: var(--accent);">AWS Cloud Resume Challenge</h3>
       <p style="margin: 0 0 10px; color: var(--muted);">
         Imported a production-style AWS stack into Terraform, validated zero-drift, and automated deploys.
       </p>
