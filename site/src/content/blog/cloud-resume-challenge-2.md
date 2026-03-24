@@ -61,8 +61,8 @@ It also reinforced an important idea: most systems don’t fail because of one b
 At this stage, the project crossed an important threshold. It wasn’t just “a website” anymore. It was a distributed system, even if a simple one.
 
 <img
-  src="/images/cloud-resume-challenge/Flowchart-CDN.png"
-  alt="Content delivery flowchart showing DNS to CloudFront and S3"
+  src="/images/cloud-resume-challenge/content-delivery-flowchart.svg"
+  alt="Architecture diagram showing request flow from user through Route 53, CloudFront, and S3"
   style="display: block; max-width: 100%; height: auto; margin: 16px auto;"
 />
 

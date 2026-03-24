@@ -8,47 +8,50 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 >
   <section id="about" class="card" style="padding: 22px;">
     <p style="margin: 0; color: var(--muted);">
-      Hi, I'm Harry, a Technical Project Manager from Toronto, Canada who stays current by building, shipping, and learning in public.
-      I lead teams with clarity, unblock delivery, and turn complex technology into outcomes teams can trust.
+      Hi, I'm Harry, a Technical Project Manager from Toronto, Canada. I design and deliver systems that sit at the intersection of clinical workflows, real-time communication, and cloud infrastructure.
+      My focus is turning complex, high-stakes environments into reliable, scalable solutions.
     </p>
     <p style="margin: 10px 0 0; color: var(--muted);">
-      I also love the NBA, Formula 1, travelling the world, and hunting down the best local street food in every
-      city I visit.
+      I also love the NBA, Formula 1, travelling the world, and hunting down the best local street food in every city I visit.
     </p>
     <p style="margin: 10px 0 0; color: var(--muted);">
       Explore the projects and posts below to see how I work, what I learn, and how I keep pace with modern platforms.
     </p>
   </section>
 
-  <section id="projects" style="margin-top: 18px;">
-    <h2 style="margin: 0 0 10px; font-size: 22px;">Featured Projects</h2>
-
-    <div class="grid" style="display: grid; gap: 12px; grid-template-columns: repeat(12, minmax(0, 1fr));">
-      <div class="card" style="grid-column: span 6;">
-        <h3 style="margin: 0 0 6px;">Cloud Resume Challenge</h3>
-        <p style="margin: 0 0 10px; color: var(--muted);">
-          Imported a production-style AWS stack into Terraform, validated zero-drift, and automated deploys.
-        </p>
-        <a href="/blog/cloud-resume-challenge">Read write-up →</a>
-      </div>
-
-      <div class="card" style="grid-column: span 6;">
-        <h3 style="margin: 0 0 6px;">Portfolio + Blog</h3>
-        <p style="margin: 0 0 10px; color: var(--muted);">
-          Python, web design, AWS, and much more.
-        </p>
-        <a href="/blog">Browse posts →</a>
-      </div>
+  <section id="featured-work" style="margin-top: 28px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px;">Featured Work</h2>
+    <div class="card">
+      <h3 style="margin: 0 0 8px;">Patient Logger App</h3>
+      <p style="margin: 0 0 10px; color: var(--muted);">
+        A full-stack clinical task tracking application designed around real healthcare system constraints.
+      </p>
+      <ul style="margin: 0 0 12px; padding-left: 18px; color: var(--muted);">
+        <li>Built a Node.js + PostgreSQL backend with JWT auth, role-based access control, and Row Level Security for multi-tenant hospital data isolation</li>
+        <li>Designed a React frontend with role-aware navigation, centralized API layer, and clinical-grade UX patterns</li>
+        <li>Containerized the full stack with Docker Compose, including auto-run migrations and repeatable local environment setup</li>
+      </ul>
+      <a href="/blog/patient-logger">Read write-up →</a>
     </div>
   </section>
 
-  <section id="technical-writing" style="margin-top: 18px;">
-    <h2 style="margin: 0 0 10px; font-size: 22px;">Technical Deep Dives</h2>
-    <p style="margin: 0 0 14px; color: var(--muted);">
-      Technical deep dives exploring system design, cloud architecture, and emerging AI concepts?written to document how I reason about tradeoffs, constraints, and real-world engineering decisions.
-    </p>
+  <section id="other-projects" style="margin-top: 28px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px;">Other Projects</h2>
+    <div class="card">
+      <h3 style="margin: 0 0 6px;">Cloud Resume Challenge <span style="font-weight: 400; color: var(--muted);">(AWS)</span></h3>
+      <p style="margin: 0 0 10px; color: var(--muted);">
+        Imported a production-style AWS stack into Terraform, validated zero-drift, and automated deploys.
+      </p>
+      <a href="/blog/cloud-resume-challenge">Read write-up →</a>
+    </div>
+  </section>
 
-    <div class="grid" style="display: grid; gap: 12px; grid-template-columns: repeat(12, minmax(0, 1fr));">
+  <section id="writing" style="margin-top: 28px;">
+    <h2 style="margin: 0 0 4px; font-size: 22px;">Writing / Thinking</h2>
+    <p style="margin: 0 0 14px; color: var(--muted);">
+      Technical deep dives exploring system design, cloud architecture, and emerging AI concepts — written to document how I reason about tradeoffs, constraints, and real-world engineering decisions.
+    </p>
+    <div style="display: grid; gap: 12px; grid-template-columns: repeat(12, minmax(0, 1fr));">
       <div class="card" style="grid-column: span 4;">
         <span class="pill">System Design</span>
         <h3 style="margin: 10px 0 6px;">Resilient Event Pipelines</h3>
@@ -57,7 +60,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
         <a href="/technical-writing">Read Article</a>
       </div>
-
       <div class="card" style="grid-column: span 4;">
         <span class="pill">AI Developments</span>
         <h3 style="margin: 10px 0 6px;">Human-in-the-Loop Guardrails</h3>
@@ -66,7 +68,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
         <a href="/technical-writing">Read Article</a>
       </div>
-
       <div class="card" style="grid-column: span 4;">
         <span class="pill">Financial Literacy</span>
         <h3 style="margin: 10px 0 6px;">Finance Basics for Builders</h3>
@@ -78,10 +79,35 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 
-  <section id="contact" style="margin-top: 18px;">
-    <h2 style="margin: 0 0 10px; font-size: 22px;">Contact</h2>
+  <section id="experience" style="margin-top: 28px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px;">Real-World Experience</h2>
     <div class="card">
-      <ul style="margin: 10px 0 0; padding-left: 18px;">
+      <p style="margin: 0 0 10px; color: var(--muted); font-weight: 500;">What I've delivered in production:</p>
+      <ul style="margin: 0; padding-left: 18px; color: var(--muted);">
+        <li>Led implementations across multiple hospital sites with complex integration requirements</li>
+        <li>Worked on systems involving real-time communication, alert routing, and clinical workflows</li>
+        <li>Coordinated across technical teams, vendors, and frontline healthcare staff</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="current-focus" style="margin-top: 28px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px;">Current Focus</h2>
+    <div class="card">
+      <ul style="margin: 0; padding-left: 18px; color: var(--muted);">
+        <li>Deepening system design and cloud architecture skills</li>
+        <li>Building production-style applications that reflect real-world constraints</li>
+        <li>Exploring how AI systems integrate into operational workflows</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" style="margin-top: 28px;">
+    <div class="card" style="padding: 22px;">
+      <p style="margin: 0 0 12px; color: var(--muted);">
+        If you're working on complex systems where reliability and real-world constraints matter, let's connect.
+      </p>
+      <ul style="margin: 0; padding-left: 18px;">
         <li><a href="https://github.com/hsivasambu">Github</a></li>
         <li><a href="https://www.linkedin.com/in/hsivasambu/">LinkedIn</a></li>
         <li><a href="mailto:h.sivasambu@gmail.com">Email</a></li>
@@ -89,4 +115,3 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 </BaseLayout>
-

@@ -22,15 +22,23 @@ What sets these newer platforms apart isn’t just technology—it’s philosoph
 - **Faster iteration cycles driven by real user feedback**
 - **Security and compliance built in from day one**
 
-This shift is raising expectations across the industry. Healthcare teams increasingly expect software to feel modern, reliable, and responsive—because their work depends on it. Building systems with that mindset requires rethinking how we design, deploy, and evolve software from the ground up.
+In hospital environments, tracking patient-related tasks is often fragmented across multiple systems, increasing the risk of missed actions and poor visibility across care teams.
+
+This project explores how a centralized, role-aware system could improve reliability, auditability, and coordination in clinical workflows.
 
 ---
 
-That led to this **Patient Logger** app — a very simple patient task tracking application designed to simulate how clinicians might log care activities in a controlled, secure environment. The goal was not to build a production healthcare app, but to design something that _behaves_ like one: role-aware, auditable, and structured enough to scale. Think Epic Rover lite. Rover operates in a high-stakes environment with real patients, regulatory requirements, and deep integration with clinical data.
+That led to this **Patient Logger** app — A multi-tenant clinical task tracking system designed to model how healthcare applications handle user roles, data isolation, and auditability. The goal was not to build a production healthcare app, but to design something that _behaves_ like one: role-aware, auditable, and structured enough to scale. Think Epic Rover lite. Rover operates in a high-stakes environment with real patients, regulatory requirements, and deep integration with clinical data.
 
 My Patient Logger doesn’t do all of that — but it implements the same core patterns: patient-linked task logs, authenticated clinical users, and clear, auditable records of actions. It’s a sandboxed way to explore how such systems behave before tackling full interoperability with real clinical platforms.
 
 This project spans both backend and frontend, with a strong focus on correctness, clarity, and future extensibility.
+
+---
+
+## Architecture
+
+![Patient Logger Architecture Diagram](/images/patient-logger/architecture.svg)
 
 ---
 
@@ -49,7 +57,13 @@ The system is intentionally split into:
 - **A backend REST API** focused on security, validation, and data ownership
 - **A frontend UI** focused on clarity, speed, and usability in clinical workflows
 
-**Caveat:** This project is significantly larger than anything I’ve built solo before. To help bootstrap the structure and initialize files, I used **Claude Code** as an assistive tool. That said, the **architecture, logic, tradeoffs, and design decisions were driven by my own reasoning**, informed by research into current industry standards, modern healthcare platforms, and real-world system design patterns. The goal was not automation, but acceleration — using tools to move faster while staying deeply involved in every technical decision.
+## System Design Overview
+
+- Clinician interacts with React UI
+- Requests go through authenticated API layer
+- Backend enforces role + tenant isolation
+- PostgreSQL applies Row Level Security for data separation
+- Redis supports caching/session performance
 
 ![Patient Logger menu screen](/images/patient-logger/login.jpg)
 
@@ -110,12 +124,10 @@ A trigger automatically assigns `hospital_id` on new task logs based on the asso
 ## Core API behavior
 
 - **Authentication**
-
   - JWT-based login and registration
   - Role-based access (admin vs clinician)
 
 - **Patients**
-
   - Admin-only create, update, and delete
   - MRN uniqueness scoped per hospital
 
@@ -186,18 +198,15 @@ The UI uses:
 ## Core UI flows
 
 - **Login & Register**
-
   - Validation, error feedback, demo credentials
   - Clean redirect flow on auth state changes
 
 - **Dashboard**
-
   - Summary metrics (patients, tasks, activity)
   - Quick-access actions
   - Recent activity previews
 
 - **Patient management**
-
   - Searchable table view
   - Detail preview modal
   - Admin-only create/edit/delete
@@ -246,16 +255,12 @@ Balancing simplicity with functionality required constant pruning.
 
 ---
 
-## What I learned
+## What this project demonstrates
 
-This project reinforced several things:
-
-- Docker is a force multiplier for local development
-- Security should be designed early, not patched later
-- Multi-tenant thinking changes how you model everything
-- Clean boundaries make systems easier to reason about
-
-Most importantly, it reminded me how much clarity comes from building end to end.
+- Designing multi-tenant systems with strong data isolation
+- Applying backend-enforced security patterns
+- Building end-to-end systems aligned with real-world constraints
+- Translating healthcare workflows into system design
 
 ---
 
