@@ -23,6 +23,7 @@ This series documents that process in detail. It focuses less on polished outcom
 ## Series
 
 - [Part 1: From Local Files to Global Access](/blog/cloud-resume-challenge-2)
+- [Part 2: From Static to Stateful Systems](/blog/cloud-resume-challenge-3)
 - More parts coming soon.
 
 ![Cloud Computing](/images/cloud-resume-challenge/cloud-computing.jpg)
