@@ -58,6 +58,22 @@ The system is intentionally split into:
 - **A backend REST API** focused on security, validation, and data ownership
 - **A frontend UI** focused on clarity, speed, and usability in clinical workflows
 
+## How the system works
+
+At a high level, Patient Logger supports a simple clinical workflow: tracking patient-related tasks in a structured and auditable way.
+
+A typical flow looks like this:
+
+1. A clinician logs into the system and is authenticated based on their role (admin or clinician)
+2. The clinician views a list of patients within their organization
+3. Tasks can be created for a patient, such as logging an action, observation, or update
+4. Each task is recorded with a timestamp, associated clinician, and task type
+5. Task logs can be filtered and reviewed to understand recent activity and patient history
+
+Administrators have additional permissions to create and manage patient records, while clinicians focus on interacting with task logs.
+
+All actions are tied to both a user and a patient, creating a clear and auditable record of activity across the system.
+
 ## System Design Overview
 
 Patient Logger is built as a layered clinical workflow system with clear separation between the interface, application logic, and data controls.
@@ -100,6 +116,8 @@ The API follows a modular layout:
 - Middleware handles authentication, authorization, and request validation
 
 Everything is structured to keep business logic readable and predictable.
+
+## ![Patient Logger Log](/images/patient-logger/patient-task-log.jpg)
 
 ---
 
@@ -209,7 +227,6 @@ The system focuses on core workflows (patients, users, task logs) rather than at
 
 This keeps the project aligned with its goal: modeling core patterns found in production systems without unnecessary overhead.
 
-## ![Patient Logger Log](/images/patient-logger/patient-task-log.jpg)
 
 ---
 
