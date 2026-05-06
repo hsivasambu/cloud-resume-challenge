@@ -2,19 +2,63 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("blog"))
+const allPosts = (await getCollection("blog"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const featuredSlugs = ["clinical-alert-triage", "patient-logger", "cloud-resume-challenge"];
+
+const featuredPosts = featuredSlugs
+  .map((slug) => allPosts.find((p) => p.slug === slug))
+  .filter(Boolean);
+
+const otherPosts = allPosts.filter((p) => !featuredSlugs.includes(p.slug));
+
+const featuredMeta: Record<string, { label: string; demo?: string }> = {
+  "clinical-alert-triage": {
+    label: "AI + Healthcare",
+    demo: "https://clinical-alert-triage-t7t1.vercel.app/",
+  },
+  "patient-logger": { label: "Full-Stack" },
+  "cloud-resume-challenge": { label: "Cloud Infrastructure" },
+};
 ---
 
 <BaseLayout title="Blog | Harry Sivasambu" description="Articles and project write-ups.">
   <h1 style="margin: 0 0 10px; font-size: 34px;">Blog</h1>
-  <p style="margin: 0 0 16px; color: var(--muted); max-width: 72ch;">
+  <p style="margin: 0 0 28px; color: var(--muted); max-width: 72ch;">
     Project write-ups, engineering notes, and practical lessons learned.
   </p>
 
+  <h2 style="margin: 0 0 14px; font-size: 20px;">Featured Projects</h2>
+  <div style="display: grid; gap: 14px; margin-bottom: 40px;">
+    {featuredPosts.map((post) => {
+      const meta = featuredMeta[post.slug];
+      return (
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div style="flex: 1; min-width: 0;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+              {meta?.label && <span class="pill">{meta.label}</span>}
+              <h2 style="margin: 0; font-size: 18px; color: var(--accent);">{post.data.title}</h2>
+            </div>
+            {post.data.description && (
+              <p style="margin: 0 0 10px; color: var(--muted);">{post.data.description}</p>
+            )}
+            <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+              {meta?.demo && (
+                <a href={meta.demo} target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 7px 16px; background: var(--accent); color: #000; font-weight: 600; border-radius: 6px; text-decoration: none; font-size: 0.9em;">Try Live Demo →</a>
+              )}
+              <a href={`/blog/${post.slug}`}>Read write-up →</a>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+  <h2 style="margin: 0 0 14px; font-size: 20px;">All Posts</h2>
   <div style="display: grid; gap: 12px;">
-    {posts.map((post) => (
+    {otherPosts.map((post) => (
       <a href={`/blog/${post.slug}`} style="text-decoration: none;">
         <div class="card">
           <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">

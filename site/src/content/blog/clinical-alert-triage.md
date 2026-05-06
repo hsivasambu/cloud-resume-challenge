@@ -18,6 +18,14 @@ That was the starting point for my project: **Clinical Alert Triage Assistant**,
 
 That constraint came from conversations I've had with nurses and clinical staff during healthcare technology implementations. In clinical environments, systems need to earn trust. If they feel opaque, noisy, or disconnected from real workflows, they risk being ignored.
 
+<div style="margin: 28px 0; padding: 20px 24px; border: 1px solid var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <p style="margin: 0 0 4px; font-weight: 600;">Try the live demo</p>
+    <p style="margin: 0; color: var(--muted); font-size: 0.9em;">Interact with the triage assistant — submit simulated alerts and see the AI explanation layer in action.</p>
+  </div>
+  <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 10px 20px; background: var(--accent); color: #000; font-weight: 600; border-radius: 6px; text-decoration: none; white-space: nowrap;">Launch App →</a>
+</div>
+
 ## The Product Problem
 
 The goal was not to build a doctor in a box. That would be a terrible idea, and probably a very stressful box.
@@ -220,3 +228,9 @@ That became the core product principle:
 **Let AI improve clarity. Keep authority with rules and humans.**
 
 For safety-sensitive workflows, that is not a limitation. That is the design.
+
+---
+
+<div style="margin-top: 24px; text-align: center;">
+  <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: var(--accent); color: #000; font-weight: 600; border-radius: 6px; text-decoration: none; font-size: 1.05em;">Try the Clinical Alert Triage Assistant →</a>
+</div>
