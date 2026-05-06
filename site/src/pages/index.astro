@@ -23,21 +23,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <h2 style="margin: 0 0 10px; font-size: 22px;">Featured Work</h2>
     <div class="card" style="display: flex; gap: 24px; align-items: center;">
       <div style="flex: 1; min-width: 0;">
-        <h3 style="margin: 0 0 8px;">Patient Logger App</h3>
+        <h3 style="margin: 0 0 8px;">Clinical Alert Triage Assistant</h3>
         <p style="margin: 0 0 10px; color: var(--muted);">
-          A full-stack clinical task tracking application designed around real healthcare system constraints.
+          A simulated clinical alert triage system built around one constraint: AI explains alerts, rules and humans decide.
         </p>
         <ul style="margin: 0 0 12px; padding-left: 18px; color: var(--muted);">
-          <li>Built a Node.js + PostgreSQL backend with JWT auth, role-based access control, and Row Level Security for multi-tenant hospital data isolation</li>
-          <li>Designed a React frontend with role-aware navigation, centralized API layer, and clinical-grade UX patterns</li>
-          <li>Containerized the full stack with Docker Compose, including auto-run migrations and repeatable local environment setup</li>
+          <li>Designed a rules engine as the severity floor — the LLM cannot downgrade a critical alert or override deterministic thresholds</li>
+          <li>Built a structured explainability standard requiring summary, key factors, routing rationale, uncertainty, rule trace, and verification guidance</li>
+          <li>Implemented fallback-to-rules-only mode, human override flow, feedback capture, and a full audit log for every decision</li>
         </ul>
-        <a href="/blog/patient-logger">Read write-up →</a>
+        <a href="/blog/clinical-alert-triage">Read write-up →</a>
       </div>
-      <a href="/blog/patient-logger" style="width: 45%; flex-shrink: 0; display: block;">
+      <a href="/blog/clinical-alert-triage" style="width: 45%; flex-shrink: 0; display: block;">
         <img
-          src="/images/patient-logger/dashboard.jpg"
-          alt="Patient Logger dashboard screenshot"
+          src="/images/alert-triaging/alerts_Table.jpg"
+          alt="Clinical alert triage alerts table"
           style="width: 100%; border-radius: 6px; display: block;"
         />
       </a>
@@ -46,6 +46,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <section id="other-projects" style="margin-top: 28px;">
     <h2 style="margin: 0 0 10px; font-size: 22px;">Other Projects</h2>
+    <div class="card" style="margin-bottom: 12px;">
+      <h3 style="margin: 0 0 6px; color: var(--accent);">Patient Logger App</h3>
+      <p style="margin: 0 0 10px; color: var(--muted);">
+        A full-stack clinical task tracking application with multi-tenant data isolation, role-based access control, and a containerized stack.
+      </p>
+      <a href="/blog/patient-logger">Read write-up →</a>
+    </div>
     <div class="card">
       <h3 style="margin: 0 0 6px; color: var(--accent);">AWS Cloud Resume Challenge</h3>
       <p style="margin: 0 0 10px; color: var(--muted);">
@@ -55,38 +62,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 
-  <section id="writing" style="margin-top: 28px;">
-    <h2 style="margin: 0 0 4px; font-size: 22px;">Writing / Thinking</h2>
-    <p style="margin: 0 0 14px; color: var(--muted);">
-      Technical deep dives exploring system design, cloud architecture, and emerging AI concepts — written to document how I reason about tradeoffs, constraints, and real-world engineering decisions.
-    </p>
-    <div style="display: grid; gap: 12px; grid-template-columns: repeat(12, minmax(0, 1fr));">
-      <div class="card" style="grid-column: span 4;">
-        <span class="pill">System Design</span>
-        <h3 style="margin: 10px 0 6px;">Resilient Event Pipelines</h3>
-        <p style="margin: 0 0 10px; color: var(--muted);">
-          Designing for backpressure, retries, and graceful degradation in high-throughput systems.
-        </p>
-        <a href="/technical-writing">Read Article</a>
-      </div>
-      <div class="card" style="grid-column: span 4;">
-        <span class="pill">AI Developments</span>
-        <h3 style="margin: 10px 0 6px;">Human-in-the-Loop Guardrails</h3>
-        <p style="margin: 0 0 10px; color: var(--muted);">
-          Mapping where AI helps, where it harms, and how to design reliable review loops.
-        </p>
-        <a href="/technical-writing">Read Article</a>
-      </div>
-      <div class="card" style="grid-column: span 4;">
-        <span class="pill">Financial Literacy</span>
-        <h3 style="margin: 10px 0 6px;">Finance Basics for Builders</h3>
-        <p style="margin: 0 0 10px; color: var(--muted);">
-          Translating cash flow, runway, and unit economics into product decisions.
-        </p>
-        <a href="/technical-writing">Read Article</a>
-      </div>
-    </div>
-  </section>
 
   <section id="experience" style="margin-top: 28px;">
     <h2 style="margin: 0 0 10px; font-size: 22px;">Real-World Experience</h2>

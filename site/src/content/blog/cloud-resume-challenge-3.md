@@ -162,6 +162,12 @@ A few things became clear:
 
 Most importantly, I stopped thinking in terms of features and started thinking in terms of system behavior under load, failure, and change.
 
+<img
+  src="/images/cloud-resume-challenge/visitor_counter.jpg"
+  alt="Live visitor counter displaying the current site visit count"
+  style="display: block; max-width: 100%; height: auto; margin: 16px auto;"
+/>
+
 ---
 
 ## Where This Leads Next
