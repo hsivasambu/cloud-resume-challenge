@@ -1,12 +1,12 @@
 :root {
   color-scheme: light;
   /* colors */
-  --bg: #f5f6f8;
+  --bg: #ffffff;
   --panel: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --link: #0f172a;
+  --text: #0b0b0b;
+  --muted: #4b5563;
+  --border: #d1d5db;
+  --link: #0b0b0b;
   --accent: #08783e;
   --accent-solid: #08783e;
   --accent-hover: #065c30;
@@ -23,7 +23,7 @@
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 
   /* type */
-  --font: "IBM Plex Sans", "Manrope", "Segoe UI", "Helvetica", "Arial",
+  --font: "Manrope", "IBM Plex Sans", "Segoe UI", "Helvetica", "Arial",
     sans-serif;
 }
 

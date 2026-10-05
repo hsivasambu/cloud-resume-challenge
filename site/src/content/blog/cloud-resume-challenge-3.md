@@ -50,4 +50,6 @@ If the request fails, the resume displays `n/a` and the page remains usable. The
 
 The [Lambda implementation](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/backend/app.py), [backend tests](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/backend/tests/test_app.py), and [API configuration](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/infra/modules/counter_api/main.tf) show the current behavior.
 
+[Previous: hosting the portfolio](/blog/cloud-resume-challenge-2) · [Next: making the portfolio repeatable](/blog/cloud-resume-challenge-4)
+
 [Back to the project overview](/blog/cloud-resume-challenge)

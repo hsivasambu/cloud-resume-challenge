@@ -34,4 +34,6 @@ The useful lesson was learning to troubleshoot the layers separately. When a pag
 
 The current [blog infrastructure](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/infra/modules/blog_site/main.tf) and [deployment workflow](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/.github/workflows/frontend-deploy.yml) capture those decisions in code.
 
-[Next: building the visitor counter](/blog/cloud-resume-challenge-3)
+[Next: building the visitor counter](/blog/cloud-resume-challenge-3) · [Part 3: making the portfolio repeatable](/blog/cloud-resume-challenge-4)
+
+[Back to the project overview](/blog/cloud-resume-challenge)

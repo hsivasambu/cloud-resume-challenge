@@ -29,6 +29,7 @@ The main lesson was that a working page is only one part of delivery. Permission
 
 - [Part 1: Hosting the Portfolio on AWS](/blog/cloud-resume-challenge-2)
 - [Part 2: Building the Serverless Visitor Counter](/blog/cloud-resume-challenge-3)
+- [Part 3: Making the Portfolio Repeatable](/blog/cloud-resume-challenge-4)
 
 
 ![Cloud Computing](/images/cloud-resume-challenge/cloud-computing.jpg)
