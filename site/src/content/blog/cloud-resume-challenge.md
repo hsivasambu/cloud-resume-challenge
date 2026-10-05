@@ -13,7 +13,7 @@ draft: false
 - **Key tradeoff:** Used static hosting and managed services to keep operational overhead low while learning the full request and deployment path.
 - **Delivered:** S3 and CloudFront hosting, an API Gateway/Lambda/DynamoDB visitor counter, Terraform infrastructure, and GitHub Actions pipelines.
 - **Validation:** Imported existing resources into Terraform and checked for zero drift; backend tests run in the deployment pipeline.
-- **Status and limitations:** Live personal site. This demonstrates repeatable cloud delivery, not enterprise-scale load or reliability certification.
+- **Status and limitations:** Live personal site. The counter measures successful page-load requests, not unique visitors.
 
 [View the live resume](https://harry-sivasambu.com/) · [Explore the repository](https://github.com/hsivasambu/cloud-resume-challenge)
 
@@ -27,8 +27,8 @@ The main lesson was that a working page is only one part of delivery. Permission
 
 ## Series
 
-- [Part 1: From Local Files to Global Access](/blog/cloud-resume-challenge-2)
-- [Part 2: From Static to Stateful Systems](/blog/cloud-resume-challenge-3)
-- More parts coming soon.
+- [Part 1: Hosting the Portfolio on AWS](/blog/cloud-resume-challenge-2)
+- [Part 2: Building the Serverless Visitor Counter](/blog/cloud-resume-challenge-3)
+
 
 ![Cloud Computing](/images/cloud-resume-challenge/cloud-computing.jpg)

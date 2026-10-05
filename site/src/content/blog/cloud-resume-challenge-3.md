@@ -1,187 +1,53 @@
 ---
-title: "Part 2: From Static to Stateful Systems"
-description: "Adding a serverless backend and visitor counter to the Cloud Resume Challenge"
+title: "Part 2: Building the Serverless Visitor Counter"
+description: "Building an atomic DynamoDB counter, understanding its API behavior, and defining what the count actually measures."
 date: 2025-08-20
 tags: ["cloud", "aws", "serverless", "architecture"]
 draft: false
 ---
 
-The first version of this project worked. It loaded quickly, resolved through DNS, and was globally accessible through a CDN. It looked like a real system.
+The visitor counter was my first dynamic feature on this site. It needed to save one number, update it when the resume loaded, and return the new value to the browser.
 
-Every request returned the same thing. There was no memory, no state, no way for the system to reflect anything about its users or its own behavior. It was essentially the same as hosting a photo of a duck.
+## The request path
 
-That limitation became clear the moment I tried to answer a simple question:
+1. The browser loads the static resume through CloudFront.
+2. Its JavaScript calls `GET /count` on API Gateway.
+3. Lambda increments an item in DynamoDB.
+4. The API returns the updated `visits` value as JSON.
 
-**How many people have visited this site?**
+![Serverless counter architecture](/images/cloud-resume-challenge/serverless-backend-flowchart.svg)
 
----
+The current endpoint increments on GET; it does not expose separate read and write operations. That was sufficient for the challenge, although a POST for increments and a read-only GET would be a clearer API contract.
 
-## Why “Dynamic” Changes Everything
+## Updating the count safely
 
-Adding a visitor counter sounds trivial from a programming perspective. Increment a variable is probably one of the very first tasks you do when learning coding. But this was a little different than x = x+1...
+A read-modify-write sequence can lose increments when two requests read the same starting value. The Lambda uses DynamoDB's atomic `ADD` operation instead:
 
-The moment a system needs to _remember something_, a few fundamental problems appear:
-
-- Where does that data live?
-- How is it updated safely?
-- What happens if multiple users hit it at the same time?
-- How do you expose it without breaking the simplicity of the frontend?
-
-This is the transition point from static infrastructure to application design. You are no longer just serving files. You are managing state, concurrency, and data integrity.
-
----
-
-## Designing the Simplest Possible Backend
-
-Instead of jumping straight into complexity, I constrained the problem:
-
-- One piece of data: a single counter
-- Two operations:
-  - **Read the current count**
-  - **Increment the count**
-
-That translates cleanly into an API:
-
-- `GET /count` → returns current value
-- `POST /count` → increments and returns updated value
-
-This API becomes the contract between the frontend and the system. Everything else is implementation detail.
-
----
-
-## Choosing Serverless on Purpose
-
-There are many ways to build this. A small server, a container, even a managed backend service.
-
-The AWS Cloud Resume Challenge Guidebook recommends serverless for one reason: **alignment with the problem.** (And to understand how to use AWS Lambda)
-
-This system:
-
-- Has unpredictable traffic
-- Requires minimal compute
-- Doesn’t justify managing infrastructure
-
-Using AWS Lambda and API Gateway removes entire categories of concern:
-
-- No servers to provision
-- No scaling rules to tune
-- No idle resources to pay for
-
-The tradeoff is giving up some control in exchange for simplicity and speed. Serverless applications were a new tool for me, coming from a world of legacy healthcare applications and bare metal servers. The lack of overhead was refreshing to say the least.
-
----
-
-## The Data Layer: Rethinking “Databases”
-
-For storage, I used DynamoDB.
-
-No need to overcomplicate this, its just a simple array. Just a key and a value.
-
-That changes how you think about data:
-
-- You model access patterns first, not tables
-- You optimize for predictable reads and writes
-- You accept constraints in exchange for scale and performance
-
-The entire “database” becomes a single item:
-
-```json
-{
-  "id": "visitor_count",
-  "count": 1234
-}
-
----
+```python
+resp = table.update_item(
+    Key={"id": "site"},
+    UpdateExpression="ADD visits :inc",
+    ExpressionAttributeValues={":inc": 1},
+    ReturnValues="UPDATED_NEW",
+)
 ```
 
-## The Hard Part Isn’t the Code
+This protects the increment itself from that race. It does not deduplicate retries or repeated page loads.
 
-Incrementing a number is easy. Its the logistics that are tricky.
+## Why managed services
 
-Two users hitting the endpoint at the same time introduces a subtle problem:
+Lambda, API Gateway, and DynamoDB fit a small backend without requiring me to run a server. The tradeoff is having to understand permissions, request behavior, and service configuration across several components.
 
-- Both read the same value
-- Both increment
-- One update overwrites the other
+API Gateway's CORS configuration allows the resume origin. CORS controls browser access to responses; it is not authentication and does not prevent direct API calls.
 
-This is where distributed systems thinking starts to matter, even for something this small.
+## What the number means
 
-The solution is to avoid read then write patterns and use atomic updates. DynamoDB supports this natively, which means the database guarantees correctness without requiring coordination in the application layer.
+The counter records successful increments, not unique visitors. Refreshes, repeat visits, automated requests, and direct calls can all increase it. It is a learning feature rather than a reliable recruiting or audience metric.
 
-This was the first time the system forced me to think about consistency rather than just functionality.
+If the request fails, the resume displays `n/a` and the page remains usable. The counter should not block someone from reading my experience.
 
----
+![Visitor counter on the resume](/images/cloud-resume-challenge/visitor_counter.jpg)
 
-## Wiring It Together
+The [Lambda implementation](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/backend/app.py), [backend tests](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/backend/tests/test_app.py), and [API configuration](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/infra/modules/counter_api/main.tf) show the current behavior.
 
-At a high level, the flow now looks like this:
-
-1. The frontend loads from CloudFront
-2. JavaScript calls an API endpoint
-3. API Gateway routes the request
-4. Lambda executes the logic
-5. DynamoDB stores and returns the result
-
-Each component has a single responsibility. Together, they form a system.
-
-<img
-  src="/images/cloud-resume-challenge/serverless-backend-flowchart.svg"
-  alt="Architecture diagram showing request flow from browser through API Gateway, Lambda, and DynamoDB"
-  style="display: block; max-width: 100%; height: auto; margin: 16px auto;"
-/>
-
-What changed isn’t just the architecture. It’s the type of problem being solved.
-
----
-
-## The Invisible Constraints
-
-Adding this backend introduced new constraints that didn’t exist before:
-
-- Latency: Every request now depends on multiple services
-- Failure modes: What happens if Lambda fails? If DynamoDB throttles?
-- Security: Who is allowed to call this API?
-- Cost model: You now pay per request, not just for storage
-
-None of these were concerns in Part 1. All of them are unavoidable now.
-
-This is where systems stop being static diagrams and start behaving like real software.
-
----
-
-## What This Stage Actually Taught
-
-The technical implementation is straightforward, but the shift in thinking is not.
-
-A few things became clear:
-
-- State introduces complexity faster than expected
-- Concurrency is a problem even at small scale
-- Managed services don’t remove responsibility, they reshape it
-- Good system design starts with constraints, not tools
-
-Most importantly, I stopped thinking in terms of features and started thinking in terms of system behavior under load, failure, and change.
-
-<img
-  src="/images/cloud-resume-challenge/visitor_counter.jpg"
-  alt="Live visitor counter displaying the current site visit count"
-  style="display: block; max-width: 100%; height: auto; margin: 16px auto;"
-/>
-
----
-
-## Where This Leads Next
-
-At this point, the system works. It has:
-
-- A globally distributed frontend
-- A serverless backend
-- A persistent data layer
-
-But it still has a major weakness.
-
-Everything was created manually.
-
-If this system needed to be rebuilt, replicated, or handed off to another team, there would be gaps. Hidden configuration. Implicit knowledge.
-
-That’s the next problem to solve.
+[Back to the project overview](/blog/cloud-resume-challenge)

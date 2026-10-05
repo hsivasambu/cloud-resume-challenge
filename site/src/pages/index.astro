@@ -23,15 +23,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div style="flex: 1; min-width: 0;">
         <h3 style="margin: 0 0 8px;">Clinical Alert Triage Assistant</h3>
         <p style="margin: 0 0 10px; color: var(--muted);">
-          A simulated clinical alert triage system built around one constraint: AI explains alerts, rules and humans decide.
+          A simulated clinical alert workflow: rules set severity and routing, AI explains the result, and humans review.
         </p>
         <ul style="margin: 0 0 12px; padding-left: 18px; color: var(--muted);">
-          <li>Designed a rules engine as the severity floor — the LLM cannot downgrade a critical alert or override deterministic thresholds</li>
-          <li>Built a structured explainability standard requiring summary, key factors, routing rationale, uncertainty, rule trace, and verification guidance</li>
-          <li>Implemented fallback-to-rules-only mode, human override flow, feedback capture, and a full audit log for every decision</li>
+          <li>Kept severity and routing under deterministic control; the LLM only generates explanations</li>
+          <li>Built a structured explainability standard covering the alert summary, contributing factors, uncertainty, and deterministic rule trace</li>
+          <li>Added rules-only fallback, recorded human review and feedback, and an inspectable decision history</li>
         </ul>
         <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-          <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 18px; background: var(--accent); color: #fff; font-weight: 600; border-radius: 6px; text-decoration: none;">Try Live Demo →</a>
+          <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 18px; background: var(--accent-solid); color: var(--on-accent); font-weight: 600; border-radius: 6px; text-decoration: none;">Try Live Demo →</a>
           <a href="/blog/clinical-alert-triage">Read case study →</a>
         </div>
       </div>
@@ -50,7 +50,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="card" style="margin-bottom: 12px;">
       <h3 style="margin: 0 0 6px; color: var(--accent);">Patient Logger App</h3>
       <p style="margin: 0 0 10px; color: var(--muted);">
-        A full-stack clinical task tracking application with multi-tenant data isolation, role-based access control, and a containerized stack.
+        A clinical task-tracking prototype with server-side permissions, a PostgreSQL data model, and a multi-tenant extension in progress.
       </p>
       <a href="/blog/patient-logger">Read case study →</a>
     </div>
@@ -69,9 +69,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div>
       <p style="margin: 0 0 10px; color: var(--muted); font-weight: 500;">What I've delivered in production:</p>
       <ul style="margin: 0; padding-left: 18px; color: var(--muted);">
-        <li>Led implementations across multiple hospital sites with complex integration requirements</li>
-        <li>Worked on systems involving real-time communication, alert routing, and clinical workflows</li>
-        <li>Coordinated across technical teams, vendors, and frontline healthcare staff</li>
+        <li>Led hospital software implementations valued at more than $3M, from scope through go-live</li>
+        <li>Coordinated EHR/HL7, clinical communication, infrastructure, and data dependencies</li>
+        <li>Led an Agile team developing an ML gait-analysis app; delivered a prosthetic workflow change that reduced production lead time by 30%</li>
       </ul>
     </div>
   </section>

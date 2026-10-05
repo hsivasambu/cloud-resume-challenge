@@ -1,79 +1,37 @@
 ---
-title: "Part 1: From Local Files to Global Access "
-description: "Starting the Cloud Resume Challenge"
+title: "Part 1: Hosting the Portfolio on AWS"
+description: "How I published the portfolio with S3, CloudFront, DNS, and automated cache invalidation."
 date: 2025-08-13
 tags: ["cloud", "aws", "infra"]
 draft: false
 ---
 
-Every cloud journey starts somewhere unglamorous. For me, it started with a folder of static files sitting on my local machine. HTML, CSS, a bit of JavaScript. Nothing dynamic. Nothing impressive. Just something that worked when opened in a browser.
+The first version of my resume site was a folder of HTML, CSS, and JavaScript. Publishing it meant working through three separate concerns: storing the files, serving them over HTTPS, and connecting my domain.
 
-But “working locally” and “accessible globally” are two very different problems.
+## Hosting with S3
 
-This stage of the Cloud Resume Challenge forced me to confront that gap. Hosting a static website sounds trivial on the surface, but the moment you move beyond localhost, you start interacting with the foundational layers of the modern internet: object storage, DNS, caching, and global content delivery.
+I uploaded the static assets to Amazon S3. The important question was access: which requests should be allowed to retrieve those objects?
 
----
+For the blog, the Terraform configuration blocks public bucket access and uses CloudFront Origin Access Control. The bucket policy permits the distribution to read the files. That keeps the origin behind the public delivery layer.
 
-### Is this just Google Drive with extra steps?
+## Delivery with CloudFront
 
-The first real step was pushing static assets into Amazon S3. On paper, this is straightforward. In practice, it immediately introduces questions that don’t exist in local development (or when you upload files to Google Drive):
+CloudFront serves the site through a CDN and caches content according to the distribution's settings. A request can be answered from cache; otherwise, CloudFront retrieves the object from S3.
 
-- How should access be controlled?
-- Should objects be publicly readable?
-- What happens when files change?
-- How does this scale globally?
+Caching also explains why a successful upload does not always produce an immediate visible change. I added cache invalidation to the deployment workflow so updates can reach readers after the files are synced.
 
-S3 is deceptively powerful. It looks like storage, but it behaves more like a distributed system. Understanding bucket policies, object permissions, and public access controls became necessary very quickly. The moment the site became reachable from the internet, security stopped being theoretical.
+## Connecting the domain
 
----
+DNS connects the domain to the distribution. It is separate from storage and caching: a correct DNS record does not guarantee that the distribution can read its origin, or that it is serving the latest file.
 
-### Making It Global with CloudFront
+![Website delivery architecture](/images/cloud-resume-challenge/content-delivery-flowchart.svg)
 
-Hosting files wasn’t enough. I wanted fast, consistent access regardless of where users were located. That’s where CloudFront entered the picture.
+DNS resolves the address; the browser then requests the site from CloudFront. Route 53 is not a proxy carrying the page content.
 
-Connecting S3 to a CloudFront distribution introduced a new layer of complexity and clarity at the same time. Suddenly, I had to think about:
+## What I took from this stage
 
-- Cache behavior and invalidations
-- Origin access and security boundaries
-- What “edge locations” actually do
-- Why content sometimes didn’t update when expected
+The useful lesson was learning to troubleshoot the layers separately. When a page did not behave as expected, I could check domain resolution, distribution configuration, origin access, and cache state rather than changing several settings at once.
 
-This was one of the first moments where cloud abstractions started to click. CloudFront wasn’t just a performance booster. It was a control plane for how content flows across the internet.
+The current [blog infrastructure](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/infra/modules/blog_site/main.tf) and [deployment workflow](https://github.com/hsivasambu/cloud-resume-challenge/blob/main/.github/workflows/frontend-deploy.yml) capture those decisions in code.
 
-Seeing requests hit edge locations instead of a single origin shifted my understanding of scale. The architecture stopped being theoretical and started behaving like something real users could depend on.
-
-### What CloudFront Does
-
-Amazon CloudFront is a global content delivery network (CDN) that sits between users and your origin (such as an S3 bucket or an API). Its primary role is to deliver content faster, more reliably, and more securely by caching copies of your content at edge locations around the world.
-
-When a user requests a resource, CloudFront serves it from the nearest edge location if it is already cached. If not, it retrieves the content from the origin, returns it to the user, and stores a copy for subsequent requests. This reduces latency, lowers load on the origin, and improves overall performance.
-
-Beyond performance, CloudFront also provides control and protection. It allows you to define cache behavior, enforce HTTPS, restrict access to origins, integrate with AWS WAF, and control how requests and responses are handled at the edge. In practice, CloudFront becomes the public entry point for your application, shaping how traffic flows before it ever reaches your backend.
-
----
-
-### DNS: The Quiet Backbone
-
-DNS is easy to overlook until it breaks. Configuring Route 53 forced me to think about how domain names, records, and routing actually work together.
-
-It also reinforced an important idea: most systems don’t fail because of one big mistake. They fail because of small assumptions stacked on top of each other. A missing record, an incorrect alias, or a misaligned TTL can quietly take everything offline.
-
-At this stage, the project crossed an important threshold. It wasn’t just “a website” anymore. It was a distributed system, even if a simple one.
-
-<img
-  src="/images/cloud-resume-challenge/content-delivery-flowchart.svg"
-  alt="Architecture diagram showing request flow from user through Route 53, CloudFront, and S3"
-  style="display: block; max-width: 100%; height: auto; margin: 16px auto;"
-/>
-
----
-
-### When Things Finally Made Sense
-
-There was a clear moment when everything clicked. After wiring together S3, CloudFront, and Route 53, I could type a URL into a browser and understand every step of what was happening behind the scenes. The request path, the caching behavior, and the delivery flow all made sense.
-
-That clarity changed how I approached the rest of the challenge. Instead of following instructions, I started reasoning through architecture. Instead of guessing, I could predict outcomes.
-
-This stage laid the foundation for everything that followed. Without it, concepts like CI/CD, serverless backends, and security controls would have felt abstract. With it, they became logical extensions of an already functioning system.
-
----
+[Next: building the visitor counter](/blog/cloud-resume-challenge-3)

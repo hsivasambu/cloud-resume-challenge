@@ -11,6 +11,7 @@ const {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script is:inline src="/theme.js"></script>
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <title>{title}</title>
@@ -69,6 +70,7 @@ const {
             </a>
           </div>
         </nav>
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode" aria-pressed="false" hidden>Dark mode</button>
       </header>
 
       <div class="content">

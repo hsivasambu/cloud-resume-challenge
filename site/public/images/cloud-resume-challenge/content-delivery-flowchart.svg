@@ -1,68 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 280" font-family="ui-monospace, monospace" font-size="13">
-
-  <!-- Background -->
-  <rect width="820" height="280" fill="#0f1117" rx="12"/>
-
-  <!-- Title -->
-  <text x="410" y="32" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="600">Part 1 — From Local Files to Global Access</text>
-
-  <!-- Arrow markers -->
-  <defs>
-    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#475569"/>
-    </marker>
-    <marker id="arr-dim" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#334155"/>
-    </marker>
-  </defs>
-
-  <!-- ═══ NODE 1: User ═══ -->
-  <rect x="40" y="104" width="140" height="72" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
-  <text x="110" y="132" text-anchor="middle" fill="#38bdf8" font-weight="600">User</text>
-  <text x="110" y="150" text-anchor="middle" fill="#94a3b8" font-size="11">browser request</text>
-  <text x="110" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">types a URL</text>
-
-  <!-- Arrow 1 → 2 -->
-  <line x1="180" y1="140" x2="228" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
-  <text x="204" y="132" text-anchor="middle" fill="#64748b" font-size="10">DNS query</text>
-
-  <!-- ═══ NODE 2: Route 53 ═══ -->
-  <rect x="230" y="104" width="150" height="72" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
-  <text x="305" y="132" text-anchor="middle" fill="#a78bfa" font-weight="600">Route 53</text>
-  <text x="305" y="150" text-anchor="middle" fill="#94a3b8" font-size="11">DNS resolution</text>
-  <text x="305" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">alias → CloudFront</text>
-
-  <!-- Arrow 2 → 3 -->
-  <line x1="380" y1="140" x2="428" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
-  <text x="404" y="132" text-anchor="middle" fill="#64748b" font-size="10">routed to</text>
-
-  <!-- ═══ NODE 3: CloudFront ═══ -->
-  <rect x="430" y="80" width="190" height="120" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-  <text x="525" y="106" text-anchor="middle" fill="#f59e0b" font-weight="600">CloudFront (CDN)</text>
-  <text x="525" y="124" text-anchor="middle" fill="#94a3b8" font-size="11">global edge locations</text>
-  <text x="525" y="140" text-anchor="middle" fill="#94a3b8" font-size="11">cache hit → serve instantly</text>
-  <text x="525" y="156" text-anchor="middle" fill="#94a3b8" font-size="11">cache miss → fetch origin</text>
-  <text x="525" y="172" text-anchor="middle" fill="#94a3b8" font-size="11">enforces HTTPS · OAC</text>
-  <text x="525" y="188" text-anchor="middle" fill="#94a3b8" font-size="11">cache invalidation on deploy</text>
-
-  <!-- Arrow 3 → 4 (cache miss) -->
-  <line x1="620" y1="140" x2="668" y2="140" stroke="#334155" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-dim)"/>
-  <text x="644" y="130" text-anchor="middle" fill="#475569" font-size="10">cache miss</text>
-
-  <!-- ═══ NODE 4: S3 ═══ -->
-  <rect x="670" y="104" width="120" height="72" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
-  <text x="730" y="132" text-anchor="middle" fill="#34d399" font-weight="600">Amazon S3</text>
-  <text x="730" y="150" text-anchor="middle" fill="#94a3b8" font-size="11">static origin</text>
-  <text x="730" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">HTML · CSS · JS</text>
-
-  <!-- Return arc S3 → CloudFront -->
-  <path d="M670,155 Q644,210 620,175" fill="none" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-dim)"/>
-  <text x="644" y="210" text-anchor="middle" fill="#475569" font-size="10">response cached</text>
-
-  <!-- ─── Legend ─── -->
-  <line x1="40" y1="238" x2="70" y2="238" stroke="#475569" stroke-width="1.5"/>
-  <text x="76" y="242" fill="#64748b" font-size="11">request path</text>
-  <line x1="188" y1="238" x2="218" y2="238" stroke="#334155" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <text x="224" y="242" fill="#64748b" font-size="11">cache miss / origin fetch</text>
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 320" font-family="ui-monospace, monospace" font-size="13" role="img" aria-label="Browser resolves the domain through DNS, then requests content from CloudFront, which fetches S3 on a cache miss">
+  <rect width="820" height="320" fill="#0f1117" rx="12"/>
+  <text x="410" y="32" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="600">Portfolio hosting: DNS and content delivery</text>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/></marker></defs>
+  <rect x="40" y="200" width="160" height="80" rx="8" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="120" y="227" text-anchor="middle" fill="#38bdf8">Browser</text>
+  <text x="120" y="248" text-anchor="middle" fill="#b2bdcb" font-size="11">resolves domain</text>
+  <text x="120" y="265" text-anchor="middle" fill="#b2bdcb" font-size="11">then requests page</text>
+  <rect x="40" y="65" width="240" height="75" rx="8" fill="#1e293b" stroke="#a78bfa"/>
+  <text x="160" y="92" text-anchor="middle" fill="#a78bfa">DNS / Route 53</text>
+  <text x="160" y="115" text-anchor="middle" fill="#b2bdcb" font-size="11">domain points to CloudFront</text>
+  <line x1="100" y1="200" x2="100" y2="142" stroke="#94a3b8" marker-end="url(#arrow)"/>
+  <line x1="150" y1="140" x2="150" y2="198" stroke="#94a3b8" marker-end="url(#arrow)"/>
+  <text x="175" y="170" fill="#b2bdcb" font-size="11">DNS answer</text>
+  <rect x="350" y="175" width="240" height="110" rx="8" fill="#1e293b" stroke="#f59e0b"/>
+  <text x="470" y="203" text-anchor="middle" fill="#f59e0b">CloudFront</text>
+  <text x="470" y="226" text-anchor="middle" fill="#b2bdcb" font-size="11">HTTPS · cached content</text>
+  <text x="470" y="245" text-anchor="middle" fill="#b2bdcb" font-size="11">OAC to private blog origin</text>
+  <text x="470" y="264" text-anchor="middle" fill="#b2bdcb" font-size="11">invalidation after deploy</text>
+  <line x1="200" y1="230" x2="348" y2="230" stroke="#94a3b8" marker-end="url(#arrow)"/>
+  <text x="275" y="216" text-anchor="middle" fill="#b2bdcb" font-size="11">HTTPS</text>
+  <rect x="675" y="200" width="120" height="80" rx="8" fill="#1e293b" stroke="#34d399"/>
+  <text x="735" y="227" text-anchor="middle" fill="#34d399">Amazon S3</text>
+  <text x="735" y="251" text-anchor="middle" fill="#b2bdcb" font-size="11">static files</text>
+  <line x1="590" y1="230" x2="673" y2="230" stroke="#94a3b8" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+  <text x="632" y="215" text-anchor="middle" fill="#b2bdcb" font-size="10">cache miss</text>
 </svg>
