@@ -32,7 +32,7 @@ The explanation belongs to the recorded decision. Opening an existing alert does
 
 ![Current demo with example launcher, queue filters and six synthetic alert cards](/images/alert-triaging/current-alert-queue.jpg)
 
-*Current deployed demo, captured October 5, 2026. This narrow-screen view shows the example launcher and searchable alert queue. Screenshots document the refreshed interface; the original project and publication timeline remains May 2026.*
+*All three interface screenshots were captured from the deployed demo on October 5, 2026. This narrow-screen view shows the example launcher and searchable alert queue. The screenshots document the refreshed interface; the original project and publication timeline remains May 2026.*
 
 ## Where I drew the boundary
 
