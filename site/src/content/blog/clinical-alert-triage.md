@@ -15,89 +15,82 @@ draft: false
 - **Validation:** The repository includes tests for severity rules, AI fallback, review actions, and persistence. These are software tests, not clinical validation.
 - **Status:** Live demonstration using simulated data; not a clinical system.
 
-[Try the demo](https://clinical-alert-triage-t7t1.vercel.app/) · [View repository and tests](https://github.com/hsivasambu/clinical-alert-triage)
-
 ## The problem I chose
 
 Conversations with nurses and clinical staff during implementations made me interested in how alerts earn attention and trust. A priority label alone does not explain which evidence mattered or why an alert was routed to a particular team.
 
 I wanted to explore whether AI could explain that context without controlling the triage decision. The prototype covers tachycardia, low oxygen saturation, infusion pump alarms, nurse calls, fall risk, and sepsis screening.
 
-![Simulated alert queue](/images/alert-triaging/alerts_Table.jpg)
 
-## Keeping authority separate from explanation
+## Try the working demo
 
-The rules engine assigns severity, and deterministic routing selects the destination. The LLM generates narrative fields: a summary, rationale, contributing factors, uncertainty notes, and recommended checks.
+[Open the portfolio demo](https://clinical-alert-triage-t7t1.vercel.app), [inspect the code](https://github.com/hsivasambu/clinical-alert-triage), or read the [walkthrough](https://github.com/hsivasambu/clinical-alert-triage#demo-walkthrough).
 
-The decision layer keeps priority, route, and rule trace under deterministic control. The model cannot raise or lower priority, or change routing. Absent output, invalid JSON, schema failures, or an explanation confidence score below 0.5 lead to rules-only mode. These checks validate structure and availability; they do not establish that the narrative is accurate or suitable.
+This is simulated data. Start with a threshold match, context-based routing or repeated input. Each demonstrates an engineering behavior without asking you to fill out the full simulator. Advanced customization is there if you want to explore all six types.
 
-The severity thresholds, routing choices, hard-coded rule-confidence values, and 0.5 explanation cutoff are illustrative and clinically unvalidated. The explanation score starts as a model estimate and is capped by input-completeness heuristics. Neither score is a clinically calibrated probability.
+The explanation belongs to the recorded decision. Opening an existing alert does not generate a fresh AI answer. The demo also works without a model key: rules-only mode fills all six sections from input and matched rules. Hosting may lag the repository; the verification below describes tested source, not a claim that the deployment has been updated.
 
-![Triage workflow](/images/alert-triaging/Flowchart.png)
+## Where I drew the boundary
 
-This boundary was the main design decision. It gave the model a useful, limited job and let me inspect what happened when that layer was unavailable.
+I wanted each layer's responsibility to be easy to inspect. Rules assign priority. The router assigns destination. The model gets that completed decision and explains it. It cannot raise priority, lower it or choose another team.
 
-## Designing for review
+![Recorded decision workflow: rules, routing, explanation, persistence, queue and human review](/images/alert-triaging/recorded-decision-workflow.svg)
 
-I considered three audiences: bedside nurses reading an explanation, charge nurses reviewing escalation, and informatics or QA staff inspecting the decision history.
+That boundary goes further than protecting Critical from downgrades. A model-generated escalation would still be a decision. I have kept that job deterministic in both directions.
 
-The interface exposes the rule trace alongside the explanation. A reviewer can accept a result, record an override, or submit feedback. The original triage result remains available with the subsequent actions.
+Human review has its own record. Acceptance stores the version and values being accepted. Override creates a new effective version without rewriting the original. The screen shows both, so a later reader can distinguish software output from human changes. A later override needs a new acceptance, even when it restores familiar values.
 
-The [feedback handler](https://github.com/hsivasambu/clinical-alert-triage/blob/9be1db24153dc2e07a72d96fa515d7893b7a7559/backend/main.py) appends feedback to the audit record. It is not retrieved by the prompt builder, passed into generation, or used to retrain the model. It gives a reviewer evidence to inspect; it does not adjust subsequent explanations.
+There is a limit here: the prototype lets a human lower even Critical. Reviewer names are typed labels, not authenticated identities. That demonstrates human control; it is not a finished clinical permissions policy.
 
-![Explanation panel](/images/alert-triaging/Alert_Explanation.jpg)
+Feedback is deliberately modest. Ratings, categories and comments are stored in audit history. They do not retrain the model, alter rules or automatically improve future explanations. A learning pipeline would be separate future work.
 
-## The explanation format I am targeting
+## Worked example: one observation, two visible decisions
 
-The target standard has six parts: **summary, key factors, routing rationale, uncertainty, rule trace, and verification guidance**. The interface is organized around those elements so a reviewer can compare narrative claims with the deterministic result.
+Here is a synthetic documentation example checked locally with the provider disabled. Its illustrative timestamp uses the original May 2026 project timeline; it is not the date of the later verification run:
 
-The current rules-only fallback does not fully meet that standard. It retains the route and rule trace, but uses a placeholder summary and uncertainty note; rationale, factors, and recommended checks are empty. Keeping the decision available is useful, but a complete explanation during fallback remains work to do.
+```json
+{
+  "alert_id": "DOC-SPO2-001",
+  "source_system": "Documentation-Simulator",
+  "alert_type": "low_spo2",
+  "patient_id": "SYNTHETIC-001",
+  "unit": "ICU",
+  "timestamp": "2026-05-06T12:00:00Z",
+  "vital_signs": {"spo2": 85},
+  "repeat_count": 0
+}
+```
 
-The [explanation panel](https://github.com/hsivasambu/clinical-alert-triage/blob/9be1db24153dc2e07a72d96fa515d7893b7a7559/frontend/src/components/ExplanationPanel.tsx) and [decision layer](https://github.com/hsivasambu/clinical-alert-triage/blob/9be1db24153dc2e07a72d96fa515d7893b7a7559/backend/decision_layer.py) show that difference between the intended format and the implemented fallback.
+`SPO2_LT_88` matches because 85 is below 88. System priority is Critical. The ICU keyword branch selects `ICU Team (Intensivist + Nurse)` instead of the rule's initial Rapid Response destination. Both choices come from code, not narrative.
 
-## A worked example from the code
+With the provider disabled, the recorded explanation uses `rules_only` and `llm_disabled`. Its six sections explain observation, threshold, router branch and missing information. Absent heart rate or temperature is unavailable, not quietly normal. Verification guidance concerns source, units, timestamps and rule evidence, without diagnosis or treatment advice.
 
-I ran the repository's [simulated low-oxygen sample](https://github.com/hsivasambu/clinical-alert-triage/blob/9be1db24153dc2e07a72d96fa515d7893b7a7559/sample_data/alerts_low_spo2.json) through the rules engine and decision layer, without an LLM call. It contains SpO2 of 85%, one repeat, and a medical/surgical unit.
+Initially the effective decision is Critical / ICU Team, version 0, unreviewed. In a deliberately synthetic review, overriding to High without a new route creates a version and retains the ICU route. The original Critical result stays intact. Accepting that version records High / ICU Team against it. Refreshing reloads saved history when backend storage persists. This demonstrates review mechanics, not advice to downgrade an alert.
 
-| Checkpoint | Observed output |
-| --- | --- |
-| Matched rule | `SPO2_LT_88`, the demo rule for SpO2 below 88% |
-| Baseline and final priority | `Critical` |
-| Final route | `Rapid Response Team` |
-| Explanation mode | `rules_only` |
-| Rule trace | `SPO2_LT_88`, preserved from the rules engine |
-| Narrative fields | Placeholder summary; empty rationale, factors, and recommended checks |
+## What the checks can and cannot establish
 
-These are prototype outputs, not a recommendation for handling a real patient. The useful implementation result is that losing the explanation layer leaves the same deterministic priority and route available, while visibly reducing the explanation's completeness.
+I validate nonblank narrative, supplied evidence IDs, recognized measurement claims and detected decision contradictions. Conservative checks also look for prohibited content. Rejection records a reason and selects deterministic explanation. Provider failures, timeouts, invalid schemas and low explanation estimates have distinct reasons too.
 
-## Scope and validation
+Those checks make failures visible. They do not make prose trustworthy by definition. A valid citation can sit beside an unsupported sentence; a phrase filter can miss a paraphrase. I included a case that gets through rather than hiding it behind a perfect-looking score.
 
-I left out EHR connections and streaming feeds. JSON inputs and a focused review flow made it possible to work on decision boundaries without adding integration dependencies first.
+Model confidence is a self-reported explanation estimate. A deterministic cap reduces its displayed value for sparse/noisy input. Neither number is a calibrated clinical probability. Old rule scores are manual weights, not measured reliability.
 
-The [explainer](https://github.com/hsivasambu/clinical-alert-triage/blob/9be1db24153dc2e07a72d96fa515d7893b7a7559/backend/llm_explainer.py) parses JSON and uses Pydantic to check required fields, basic types, non-empty strings/lists, and a confidence range of 0 to 1. Prompt instructions ask for explanation rather than diagnosis or treatment, but there is no semantic safety filter that guarantees unsuitable narrative content is rejected. A structurally valid explanation can still contradict the alert or make unsupported claims.
+Audit provenance records rules/prompt versions and hashes, model identity when available, validation outcome, fallback reason, duration and correlation ID. That helps inspect a recorded run; it does not guarantee identical words on another call. Rejected raw provider text is not retained as explanation history.
 
-On October 4, 2026, I checked source snapshot [`9be1db2`](https://github.com/hsivasambu/clinical-alert-triage/tree/9be1db24153dc2e07a72d96fa515d7893b7a7559) using Python 3.13 on Windows and the repository's declared dependencies:
+## Engineering evidence, with the denominator visible
 
-| Software check | Measured result |
-| --- | --- |
-| Existing suite, `python -m pytest -q` from `backend/` | 97 passed; 1 failed |
-| Simulated low-oxygen sample, no model call | Critical priority and Rapid Response Team route; rules-only explanation |
-| One synthetic narrative-mismatch probe | Schema accepted the payload and the decision layer used hybrid mode |
+In a later verification on October 5, 2026, source [`2a1b169`](https://github.com/hsivasambu/clinical-alert-triage/commit/2a1b169893d0c5e65ff37584ad7fe34d5082ab20) passed 211 backend, 43 UI, 16 local browser/layout and two real API integration tests, plus type checking/build. [Hosted CI](https://github.com/hsivasambu/clinical-alert-triage/actions/runs/37359198842) passed backend/frontend/integration. External model calls were disabled or mocked.
 
-The failing test, `test_multiple_feedback_allowed`, expects a negative rating without a reason category to succeed. The current input schema requires that category and returns HTTP 422. That is a test/request-contract mismatch, not evidence that repeated valid feedback is unsupported.
+[Evaluation](https://github.com/hsivasambu/clinical-alert-triage/blob/2a1b169893d0c5e65ff37584ad7fe34d5082ab20/docs/evaluation-report.md) combines 60 distinct alerts with 17 reused provider fixtures: 1,020 pipeline runs, plus eight invalid inputs. Expected priority **and routing** were preserved in 1,020/1,020. Final response schemas passed 1,020/1,020; six-section fallback was complete in 900/900.
 
-For the mismatch probe, I supplied a schema-valid explanation describing a heart rate of 145 bpm to the low-oxygen sample, whose heart rate is 102 bpm. It passed the parser and appeared in hybrid mode. Priority and routing remained rules-controlled, but the contradictory narrative was not rejected. This was a deliberately supplied payload, not an observed model response or a measured model failure rate.
+Adversarial detection was 420/480, or 87.5%. The same unsupported nonnumeric assertion escaped in 60 reused runs. Accepted evidence references passed mechanical checks, but that did not establish complete narrative grounding. These are correlated software-contract cases, not independent live-model trials. I have collected zero human narrative ratings and claim neither clinical validation nor improved patient outcomes.
 
-[View the evaluation record and probe input](/evidence/clinical-alert-triage-evaluation.json).
+## Finished capabilities and future work
 
-These measurements check software behavior with synthetic inputs and mocked model responses. I have not measured real-model explanation accuracy, unsafe-content frequency, clinician agreement, or clinical outcomes. Passing these checks does not validate the thresholds or workflow for patient care.
+Implemented: example submission, explanation, acceptance/override, feedback and chronological audit history. Missing input, provider fallback, duplicate IDs and database failures are handled before publishing decisions. Narrow screens have a usable queue and full-width detail view.
 
-Known limits also include simulated inputs, no EHR or streaming integration, no calibrated confidence scores, and no feedback-to-generation loop.
+Deployment still matters. Browser refresh retains reviews, but server restart requires persistent SQLite storage. The app bounds public writes and has no automatic retention expiry; it is designed for one process. A repository push alone does not create a persistent disk or update hosting.
 
-The demo uses SQLite. Its current hosting has an ephemeral filesystem, so records can be lost when the service restarts. Sample alerts are reseeded; the audit log is not a production retention system.
+Authenticated reviewer permissions, shared multi-instance state, broader semantic checks, human narrative assessment and real clinical integration remain future work. Those are substantial projects, not boxes I can tick because the prototype runs.
 
-## What I would do next
-
-I would add a scenario-based evaluation view, assess narrative accuracy and safety with clinical reviewers, complete the rules-only explanation, and make post-review state clearer in the queue. Moving beyond a demo would need persistent storage, identity and access controls, integration testing, and clinical validation.
-
-The project taught me to define the model's authority and failure behavior before adding the AI feature. That made the implementation easier to review and kept the MVP focused.
+What I want this project to make visible is who owns a decision, what an explanation supports and what a reviewer can inspect afterwards. AI can be useful in that smaller role. Responsibility still needs to be explicit.
