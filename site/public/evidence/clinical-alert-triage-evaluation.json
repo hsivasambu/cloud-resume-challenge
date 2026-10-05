@@ -1,0 +1,65 @@
+{
+  "checked_on": "2026-10-04",
+  "source_repository": "https://github.com/hsivasambu/clinical-alert-triage",
+  "source_commit": "9be1db24153dc2e07a72d96fa515d7893b7a7559",
+  "environment": {
+    "os": "Windows",
+    "python": "3.13",
+    "dependencies": "backend/requirements.txt at the source commit"
+  },
+  "scope": "Software checks with synthetic inputs and mocked model responses; no live model call or clinical validation.",
+  "existing_test_suite": {
+    "command": "python -m pytest -q",
+    "working_directory": "backend",
+    "passed": 97,
+    "failed": 1,
+    "failing_test": "tests/test_human_review.py::TestFeedback::test_multiple_feedback_allowed",
+    "observed_status": 422,
+    "expected_status": 201,
+    "cause": "The test sends rating=not_helpful without reason_category, which FeedbackIn.validate_feedback requires."
+  },
+  "worked_example": {
+    "source_input": "sample_data/alerts_low_spo2.json",
+    "execution": "AlertIn.model_validate_json -> rules_engine.evaluate -> decision_layer.apply(llm_output=None)",
+    "spo2": 85,
+    "heart_rate": 102,
+    "repeat_count": 1,
+    "unit": "2-South Med/Surg",
+    "matched_rules": [
+      "SPO2_LT_88"
+    ],
+    "baseline_priority": "Critical",
+    "final_priority": "Critical",
+    "final_route": "Rapid Response Team",
+    "rule_confidence": 0.98,
+    "explanation_mode": "rules_only",
+    "rationale": "",
+    "factors_considered": [],
+    "recommended_checks": []
+  },
+  "synthetic_mismatch_probe": {
+    "same_input_as_worked_example": true,
+    "execution": "llm_explainer._parse_and_validate(alert, json.dumps(payload)) -> decision_layer.apply(alert, rules, parsed)",
+    "payload": {
+      "summary": "A tachycardia alert at 145 bpm.",
+      "rationale": "Heart rate exceeds 130 bpm.",
+      "factors_considered": [
+        "Heart rate 145 bpm"
+      ],
+      "uncertainty_notes": "Synthetic mismatch probe.",
+      "recommended_checks": [
+        "Verify the input record."
+      ],
+      "confidence": 0.9
+    },
+    "schema_accepted": true,
+    "explanation_mode": "hybrid",
+    "interpretation": "The parser and decision layer do not reject this contradictory narrative. This single supplied payload is not an estimate of model failure frequency."
+  },
+  "not_measured": [
+    "Real-model explanation accuracy",
+    "Unsafe-content frequency",
+    "Clinician agreement",
+    "Clinical outcomes"
+  ]
+}
