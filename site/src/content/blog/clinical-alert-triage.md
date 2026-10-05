@@ -30,6 +30,10 @@ This is simulated data. Start with a threshold match, context-based routing or r
 
 The explanation belongs to the recorded decision. Opening an existing alert does not generate a fresh AI answer. The demo also works without a model key: rules-only mode fills all six sections from input and matched rules. Hosting may lag the repository; the verification below describes tested source, not a claim that the deployment has been updated.
 
+![Current demo with example launcher, queue filters and six synthetic alert cards](/images/alert-triaging/current-alert-queue.jpg)
+
+*Current deployed demo, captured October 5, 2026. This narrow-screen view shows the example launcher and searchable alert queue. Screenshots document the refreshed interface; the original project and publication timeline remains May 2026.*
+
 ## Where I drew the boundary
 
 I wanted each layer's responsibility to be easy to inspect. Rules assign priority. The router assigns destination. The model gets that completed decision and explains it. It cannot raise priority, lower it or choose another team.
@@ -40,9 +44,17 @@ That boundary goes further than protecting Critical from downgrades. A model-gen
 
 Human review has its own record. Acceptance stores the version and values being accepted. Override creates a new effective version without rewriting the original. The screen shows both, so a later reader can distinguish software output from human changes. A later override needs a new acceptance, even when it restores familiar values.
 
+![Current human review panel with acceptance, override, feedback and decision version](/images/alert-triaging/current-human-review.jpg)
+
+*The deployed demo's review panel separates verification guidance from acceptance, override and explanation feedback, and displays review status and decision version.*
+
 There is a limit here: the prototype lets a human lower even Critical. Reviewer names are typed labels, not authenticated identities. That demonstrates human control; it is not a finished clinical permissions policy.
 
 Feedback is deliberately modest. Ratings, categories and comments are stored in audit history. They do not retrain the model, alter rules or automatically improve future explanations. A learning pipeline would be separate future work.
+
+![Current recorded low oxygen explanation with Critical priority, Rapid Response routing and rules-only summary](/images/alert-triaging/current-recorded-explanation.jpg)
+
+*The deployed low-oxygen sample shows the saved system decision and rules-only explanation. This existing medical/surgical fixture routes to Rapid Response; the separate ICU documentation example below routes to the ICU team. Displayed alert timestamps belong to synthetic fixtures, while processing timestamps describe the recorded run.*
 
 ## Worked example: one observation, two visible decisions
 
