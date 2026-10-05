@@ -4,24 +4,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="Harry Sivasambu"
-  description="Cloud engineer portfolio, projects, and writing."
+  description="Technical Project Manager portfolio: healthcare workflows, AI guardrails, and cloud delivery."
 >
-  <section id="about" class="card" style="padding: 22px;">
-    <p style="margin: 0; color: var(--muted);">
-      Hi, I'm Harry, a Technical Project Manager from Toronto, Canada. I design and deliver systems that sit at the intersection of clinical workflows, real-time communication, and cloud infrastructure.
-      My focus is turning complex, high-stakes environments into reliable, scalable solutions.
-    </p>
-    <p style="margin: 10px 0 0; color: var(--muted);">
-      I also love the NBA, Formula 1, travelling the world, and hunting down the best local street food in every city I visit.
-    </p>
-    <p style="margin: 10px 0 0; color: var(--muted);">
-      Explore the projects and posts below to see how I work, what I learn, and how I keep pace with modern platforms.
-    </p>
+  <section id="about" class="hero">
+    <p class="eyebrow">Harry Sivasambu · Toronto, Canada</p>
+    <h1>Technical Project Manager building reliable healthcare and cloud systems</h1>
+    <p class="hero-description">Personal projects exploring AI guardrails, clinical workflows, and cloud delivery. I turn complex requirements into focused systems with clear boundaries and practical tradeoffs.</p>
+    <div class="actions">
+      <a class="button primary" href="/blog">View Projects &amp; Writing</a>
+      <a class="button" href="https://harry-sivasambu.com/">View Resume</a>
+      <a class="button" href="mailto:reachouttoharry@gmail.com">Contact Me</a>
+    </div>
   </section>
 
   <section id="featured-work" style="margin-top: 28px;">
     <h2 style="margin: 0 0 10px; font-size: 22px;">Featured Work</h2>
-    <div class="card" style="display: flex; gap: 24px; align-items: center;">
+    <div class="card featured-project">
       <div style="flex: 1; min-width: 0;">
         <h3 style="margin: 0 0 8px;">Clinical Alert Triage Assistant</h3>
         <p style="margin: 0 0 10px; color: var(--muted);">
@@ -33,11 +31,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <li>Implemented fallback-to-rules-only mode, human override flow, feedback capture, and a full audit log for every decision</li>
         </ul>
         <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-          <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 18px; background: var(--accent); color: #000; font-weight: 600; border-radius: 6px; text-decoration: none;">Try Live Demo →</a>
-          <a href="/blog/clinical-alert-triage">Read write-up →</a>
+          <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 18px; background: var(--accent); color: #fff; font-weight: 600; border-radius: 6px; text-decoration: none;">Try Live Demo →</a>
+          <a href="/blog/clinical-alert-triage">Read case study →</a>
         </div>
       </div>
-      <a href="/blog/clinical-alert-triage" style="width: 45%; flex-shrink: 0; display: block;">
+      <a href="/blog/clinical-alert-triage" class="project-image">
         <img
           src="/images/alert-triaging/alerts_Table.jpg"
           alt="Clinical alert triage alerts table"
@@ -54,21 +52,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <p style="margin: 0 0 10px; color: var(--muted);">
         A full-stack clinical task tracking application with multi-tenant data isolation, role-based access control, and a containerized stack.
       </p>
-      <a href="/blog/patient-logger">Read write-up →</a>
+      <a href="/blog/patient-logger">Read case study →</a>
     </div>
     <div class="card">
-      <h3 style="margin: 0 0 6px; color: var(--accent);">AWS Cloud Resume Challenge</h3>
+      <h3 style="margin: 0 0 6px; color: var(--accent);">AWS Portfolio Infrastructure &amp; CI/CD</h3>
       <p style="margin: 0 0 10px; color: var(--muted);">
         Imported a production-style AWS stack into Terraform, validated zero-drift, and automated deploys.
       </p>
-      <a href="/blog/cloud-resume-challenge">Read write-up →</a>
+      <a href="/blog/cloud-resume-challenge">Read case study →</a>
     </div>
   </section>
 
 
   <section id="experience" style="margin-top: 28px;">
     <h2 style="margin: 0 0 10px; font-size: 22px;">Real-World Experience</h2>
-    <div class="card">
+    <div>
       <p style="margin: 0 0 10px; color: var(--muted); font-weight: 500;">What I've delivered in production:</p>
       <ul style="margin: 0; padding-left: 18px; color: var(--muted);">
         <li>Led implementations across multiple hospital sites with complex integration requirements</li>
@@ -80,7 +78,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <section id="current-focus" style="margin-top: 28px;">
     <h2 style="margin: 0 0 10px; font-size: 22px;">Current Focus</h2>
-    <div class="card">
+    <div>
       <ul style="margin: 0; padding-left: 18px; color: var(--muted);">
         <li>Deepening system design and cloud architecture skills</li>
         <li>Building production-style applications that reflect real-world constraints</li>
@@ -90,14 +88,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </section>
 
   <section id="contact" style="margin-top: 28px;">
-    <div class="card" style="padding: 22px;">
+    <div>
       <p style="margin: 0 0 12px; color: var(--muted);">
         If you're working on complex systems where reliability and real-world constraints matter, let's connect.
       </p>
       <ul style="margin: 0; padding-left: 18px;">
-        <li><a href="https://github.com/hsivasambu">Github</a></li>
+        <li><a href="https://github.com/hsivasambu">GitHub</a></li>
         <li><a href="https://www.linkedin.com/in/hsivasambu/">LinkedIn</a></li>
-        <li><a href="mailto:h.sivasambu@gmail.com">Email</a></li>
+        <li><a href="mailto:reachouttoharry@gmail.com">Email</a></li>
       </ul>
     </div>
   </section>

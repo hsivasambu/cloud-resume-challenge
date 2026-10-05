@@ -1,24 +1,29 @@
 ---
-title: "Cloud Resume Challenge: Index = 0 "
-description: "Starting the Cloud Resume Challenge"
+title: "AWS Portfolio Infrastructure & CI/CD"
+description: "An AWS-hosted portfolio with a serverless visitor counter, Terraform-managed infrastructure, and automated GitHub Actions deployments."
 date: 2025-08-03
 tags: ["cloud", "aws", "infra"]
 draft: false
 ---
 
-Over the past decade, I have watched the tech industry steadily shift toward cloud computing, moving from self-managed, on-premises infrastructure to vendor-managed platforms and service-based architectures. Traditional models built around perpetual licenses, dedicated hardware, and large internal operations teams gradually gave way to subscription-based services, shared responsibility models, and smaller teams focused on orchestration rather than ownership. Infrastructure didn’t disappear, but it became increasingly abstracted. What once required hands-on configuration now lives behind APIs, managed services, and billing dashboards that can obscure both operational complexity and true cost if you are not intentional about understanding them.
+## Project at a glance
 
-## Cloud Computing: Fewer Servers, More Questions
+- **Problem:** Publish a portfolio with repeatable infrastructure and deployments rather than manual console changes.
+- **My role:** Built and operated this personal AWS portfolio, including its frontend, serverless backend, infrastructure configuration, and deployment workflows.
+- **Key tradeoff:** Used static hosting and managed services to keep operational overhead low while learning the full request and deployment path.
+- **Delivered:** S3 and CloudFront hosting, an API Gateway/Lambda/DynamoDB visitor counter, Terraform infrastructure, and GitHub Actions pipelines.
+- **Validation:** Imported existing resources into Terraform and checked for zero drift; backend tests run in the deployment pipeline.
+- **Status and limitations:** Live personal site. This demonstrates repeatable cloud delivery, not enterprise-scale load or reliability certification.
 
-After that shift became clear, the <a href="https://cloudresumechallenge.dev/" target="_blank" rel="noopener noreferrer"><strong>Cloud Resume Challenge</strong></a> stood out as a practical way to deepen my understanding of how modern cloud systems are actually built and operated. Rather than focusing on isolated services, it forces you to think in terms of end-to-end architecture: frontend delivery, backend logic, automation, security boundaries, and operational reliability. It is less about checking boxes and more about understanding how the pieces interact under real constraints.
+[View the live resume](https://harry-sivasambu.com/) · [Explore the repository](https://github.com/hsivasambu/cloud-resume-challenge)
 
-The challenge turned out to be more demanding than I expected. I restarted parts of the project more than once as my understanding evolved. The AWS console alone can be overwhelming, not because it is poorly designed, but because of the sheer density of capability it exposes. Early on, the number of services, configuration options, and implicit dependencies slowed momentum and forced me to step back and rethink how I approached the build.
+## Delivery approach
 
-Once I successfully deployed a static site to S3 and connected it through CloudFront, the system began to feel tangible. From there, concepts like caching behavior, DNS resolution, and request flow became much easier to reason about. Each layer added clarity rather than confusion, and the architecture gradually shifted from a collection of services into a cohesive system.
+I started with a static site on S3 and CloudFront, then added a visitor counter and deployment automation. Building the request path in stages made caching, DNS, cross-origin policies, and permissions easier to reason about.
 
-From that point forward, the project expanded into areas that more closely resemble production environments. I introduced infrastructure as code to make deployments repeatable, implemented CI/CD pipelines to remove manual steps, and added backend services to handle dynamic functionality. Along the way, I had to confront issues around permissions, cross-origin policies, environment separation, and failure modes. These were not theoretical problems; they were the same challenges that surface in real systems when assumptions meet reality.
+As the site evolved, I introduced Terraform to make infrastructure changes repeatable and GitHub Actions to automate frontend and backend deployments. Importing the existing AWS resources required reconciling the running infrastructure with its configuration before checking for drift.
 
-This series documents that process in detail. It focuses less on polished outcomes and more on the reasoning behind design decisions, the mistakes that led to better architecture, and the tradeoffs that are unavoidable when building systems meant to scale and evolve. The goal is not to present a perfect solution, but an honest one. The end result of the Cloud Resume Challenge was this blog, a static site with infrastructure managed through code with a CI/CD pipeline via GitHub Actions!
+The main lesson was that a working page is only one part of delivery. Permissions, infrastructure state, backend behavior, and cache invalidation all affect whether a change reaches users reliably. The articles below document the implementation and the decisions behind it.
 
 ## Series
 

@@ -1,40 +1,23 @@
 ---
-title: "Building a Patient Logger: Designing a Full-Stack System with Real Constraints"
-description: "Personal projects relating to professional work"
+title: "Patient Logger: Multi-Tenant Clinical Task Tracking"
+description: "A full-stack clinical task tracker with role-based access, PostgreSQL tenant isolation, and a containerized development stack."
 date: 2025-07-22
 tags: ["healthcare", "web design", "reflection"]
 draft: false
 ---
 
-After building a small game to reconnect with hands-on coding, I wanted to tackle something closer to real-world systems work. Something with structure, rules, tradeoffs, and consequences if done poorly. Inspiration for this project was drawn from the healthcare systems I work with everyday as a project manager for Stryker.
+## Project at a glance
 
-### Healthcare at an inflection point
+- **Problem:** Patient-related tasks can be fragmented across systems, making ownership and activity difficult to review.
+- **My role:** Built a personal full-stack project inspired by the healthcare workflows I encounter as a project manager.
+- **Key tradeoff:** Focused on patients, users, and task logs; deferred external integrations and real-time feeds.
+- **Delivered:** A React interface, Node.js REST API, role-based access, PostgreSQL Row Level Security, and a Docker-based stack.
+- **Validation focus:** Authentication, ownership, and tenant boundaries. Jest and Supertest support API testing; deeper boundary coverage remains a next step.
+- **Status and limitations:** A sandbox project, not a deployed clinical platform. No clinical effectiveness or compliance validation is claimed.
 
-Healthcare is at a quiet but meaningful inflection point. Clinicians and operational teams are asking more from the software they rely on every day. Not just stability, but **better usability, faster workflows, fewer clicks, cleaner integrations, and less downtime**. Many legacy systems have been deeply embedded for years, but they were built for a different era—one where flexibility, developer experience, and rapid iteration were not priorities.
+[Backend repository](https://github.com/hsivasambu/patient-task-logger-backend) · [Frontend repository](https://github.com/hsivasambu/patient-task-logger-frontend)
 
-At the same time, a new wave of healthcare technology companies is emerging, built on modern infrastructure and product-first thinking. Companies like **Notable**, **Abridge**, **Commure**, **Innovaccer**, and **Particle Health** are rethinking how clinical data flows, how users interact with systems, and how quickly software can adapt to real-world care environments.
-
-What sets these newer platforms apart isn’t just technology—it’s philosophy:
-
-- **API-first and integration-friendly architectures**
-- **User experiences designed around clinicians, not legacy workflows**
-- **Cloud-native infrastructure that scales and recovers gracefully**
-- **Faster iteration cycles driven by real user feedback**
-- **Security and compliance built in from day one**
-
-In hospital environments, tracking patient-related tasks is often fragmented across multiple systems, increasing the risk of missed actions and poor visibility across care teams.
-
-This project explores how a centralized, role-aware system could improve reliability, auditability, and coordination in clinical workflows.
-
----
-
-That led to this **Patient Logger** app — A multi-tenant clinical task tracking system designed to model how healthcare applications handle user roles, data isolation, and auditability. The system is intentionally scoped, but designed using patterns found in production healthcare platforms. Think Epic Rover lite. Rover operates in a high-stakes environment with real patients, regulatory requirements, and deep integration with clinical data.
-
-My Patient Logger doesn’t do all of that — but it implements the same core patterns: patient-linked task logs, authenticated clinical users, and clear, auditable records of actions. It’s a sandboxed way to explore how such systems behave before tackling full interoperability with real clinical platforms.
-
-This project spans both backend and frontend, with a strong focus on correctness, clarity, and future extensibility.
-
----
+I built Patient Logger to explore how clinical task tracking changes when user roles, data ownership, and organization boundaries are explicit requirements. My healthcare implementation experience informed the workflow; the project gave me a way to work through those constraints in code.
 
 ## Architecture
 
@@ -48,31 +31,13 @@ This dual-layer approach reduces the risk of data leakage and simplifies applica
 
 ---
 
-## Project overview
+## The workflow
 
-Patient Logger models core healthcare workflows around patients, clinicians, and task logs, with a focus on access control, data integrity, and auditability.
-It models real constraints found in healthcare systems such as role-based access, tenant isolation, and data integrity.
-
-The system is intentionally split into:
-
-- **A backend REST API** focused on security, validation, and data ownership
-- **A frontend UI** focused on clarity, speed, and usability in clinical workflows
-
-## How the system works
-
-At a high level, Patient Logger supports a simple clinical workflow: tracking patient-related tasks in a structured and auditable way.
-
-A typical flow looks like this:
-
-1. A clinician logs into the system and is authenticated based on their role (admin or clinician)
-2. The clinician views a list of patients within their organization
-3. Tasks can be created for a patient, such as logging an action, observation, or update
-4. Each task is recorded with a timestamp, associated clinician, and task type
-5. Task logs can be filtered and reviewed to understand recent activity and patient history
-
-Administrators have additional permissions to create and manage patient records, while clinicians focus on interacting with task logs.
-
-All actions are tied to both a user and a patient, creating a clear and auditable record of activity across the system.
+1. A clinician signs in with an admin or clinician role.
+2. The system scopes patient records to the clinician's organization.
+3. A task log records the patient, clinician, task type, and timestamp.
+4. Users filter activity by patient, clinician, type, or date.
+5. Administrators manage patient records; backend checks enforce permissions and task ownership.
 
 ## System Design Overview
 
@@ -117,7 +82,7 @@ The API follows a modular layout:
 
 Everything is structured to keep business logic readable and predictable.
 
-## ![Patient Logger Log](/images/patient-logger/patient-task-log.jpg)
+![Patient Logger Log](/images/patient-logger/patient-task-log.jpg)
 
 ---
 
@@ -159,7 +124,7 @@ A trigger automatically assigns `hospital_id` on new task logs based on the asso
   - Filterable by patient, clinician, type, and date
   - Ownership checks enforced server-side
 
-## ![Patient Logger dashboard](/images/patient-logger/dashboard.jpg)
+![Patient Logger dashboard](/images/patient-logger/dashboard.jpg)
 
 ### Key Design Decisions & Tradeoffs
 
@@ -230,15 +195,6 @@ This keeps the project aligned with its goal: modeling core patterns found in pr
 
 ---
 
-## What this project demonstrates
-
-- Designing multi-tenant systems with strong data isolation
-- Applying backend-enforced security patterns
-- Building end-to-end systems aligned with real-world constraints
-- Translating healthcare workflows into system design
-
----
-
 ## What’s next
 
 If I continue evolving this project:
@@ -248,12 +204,6 @@ If I continue evolving this project:
 - Add token refresh support
 - Improve accessibility for clinical environments
 - Expand patient detail views and workflows
-
----
-
-## Final thoughts
-
-This project sits at the intersection of engineering discipline and practical design. It reinforced that good systems aren’t just functional — they’re understandable, predictable, and safe to evolve.
 
 ---
 

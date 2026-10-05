@@ -176,6 +176,7 @@ footer > div {
 }
 
 
+a {
   color: var(--link);
   text-decoration: none;
 }
@@ -187,7 +188,7 @@ a:hover {
 h1,
 h2,
 h3 {
-  color: var(--accent);
+  color: var(--text);
   letter-spacing: 0.4px;
 }
 
@@ -364,3 +365,12 @@ main .container {
 
 
 
+
+.content { min-width: 0; }
+.visitor-pill::after { min-width: 0; width: min(520px, 75vw); }
+@media (max-width: 600px) {
+  .nav { flex-wrap: wrap; padding: 16px 0; }
+  .brand .pill { white-space: normal; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .col-4, .col-6 { grid-column: 1; }
+}

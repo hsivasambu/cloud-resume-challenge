@@ -24,8 +24,8 @@ const featuredMeta: Record<string, { label: string; demo?: string }> = {
 };
 ---
 
-<BaseLayout title="Blog | Harry Sivasambu" description="Articles and project write-ups.">
-  <h1 style="margin: 0 0 10px; font-size: 34px;">Blog</h1>
+<BaseLayout title="Projects & Writing | Harry Sivasambu" description="Articles and project write-ups.">
+  <h1 style="margin: 0 0 10px; font-size: 34px;">Projects &amp; Writing</h1>
   <p style="margin: 0 0 28px; color: var(--muted); max-width: 72ch;">
     Project write-ups, engineering notes, and practical lessons learned.
   </p>
@@ -46,9 +46,9 @@ const featuredMeta: Record<string, { label: string; demo?: string }> = {
             )}
             <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
               {meta?.demo && (
-                <a href={meta.demo} target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 7px 16px; background: var(--accent); color: #000; font-weight: 600; border-radius: 6px; text-decoration: none; font-size: 0.9em;">Try Live Demo →</a>
+                <a href={meta.demo} target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 7px 16px; background: var(--accent); color: #fff; font-weight: 600; border-radius: 6px; text-decoration: none; font-size: 0.9em;">Try Live Demo →</a>
               )}
-              <a href={`/blog/${post.slug}`}>Read write-up →</a>
+              <a href={`/blog/${post.slug}`}>Read case study →</a>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ const featuredMeta: Record<string, { label: string; demo?: string }> = {
     })}
   </div>
 
-  <h2 style="margin: 0 0 14px; font-size: 20px;">All Posts</h2>
+  <h2 style="margin: 0 0 14px; font-size: 20px;">More Projects &amp; Learning Notes</h2>
   <div style="display: grid; gap: 12px;">
     {otherPosts.map((post) => (
       <a href={`/blog/${post.slug}`} style="text-decoration: none;">

@@ -1,18 +1,29 @@
 ---
-title: 'print("Hello, World!")...again'
-description: "Learning Python for the first time, the second time"
+title: "Pixel Paddle: A Python Pong Game"
+description: "A finished Pygame project exploring game state, collision handling, opponent behavior, and retro visual design."
 date: 2025-06-29
 tags: ["python", "re-learning", "gaming"]
 draft: false
 ---
 
-# Relearning to Code With a Pong Game
+## Project at a glance
+
+- **Goal:** Rebuild hands-on Python fluency with a small, finishable project.
+- **My role:** Built a personal Pygame application from menu flow through gameplay and visual polish.
+- **Key tradeoff:** Used simple collision math and configurable opponent behavior instead of a physics engine.
+- **Delivered:** A playable Pong game with scoring, game states, generated audio, and retro visuals.
+- **Validation:** Iterated on paddle collision response, repeated-overlap behavior, and opponent movement through gameplay. No automated performance benchmark is reported.
+- **Status and limitations:** Finished learning project; multiplayer and more advanced opponent logic are future ideas.
+
+[Explore the repository](https://github.com/hsivasambu/pong-game)
+
+## Why I built it
 
 I started this project for a simple reason: I wanted to rebuild my relationship with code.
 
 Python was the first language I ever learned, back in university (over a decade ago). It shaped how I think about problems, structure logic, and reason through systems. Over time, as my career shifted, I spent less time writing code and more time coordinating people, timelines, and outcomes. Valuable work, but different muscle memory.
 
-Coming back to Python felt like picking up an old instrument. You remember the shape of it, but your fingers are slower, less precise. I'm hoping that this working through this project will help the music sound a little bit better.
+Coming back to Python felt like picking up an old instrument. You remember the shape of it, but your fingers are slower, less precise. The project gave me a practical way to rebuild that fluency.
 
 ---
 
@@ -73,7 +84,7 @@ I wanted simple sound effects without external assets, so I generated sine-wave 
 
 ### 5. Polish vs time
 
-I added a retro CRT feel with scanlines, glowing elements, and subtle animation. None of this was required, but it gave the project personality. Engineering projects rarely involved UI consideratinos, so this was a new challenge for me. To make things look pretty through code.
+I added a retro CRT feel with scanlines, glowing elements, and subtle animation. None of this was required, but it gave the project personality. Engineering projects rarely involved UI considerations, so this was a new challenge for me. To make things look pretty through code.
 
 ---
 
@@ -116,17 +127,7 @@ If I extend Pixel Paddle, I would like to explore:
 - More expressive sound design and visual feedback
 - A pause screen and post-match summary
 
-For now, though, it is done. And this has gone a long way in rebuilding my confident in what I am capable of.
-
----
-
-## Final thoughts
-
-This project reminded me why I started building in the first place. For the joy of making something work and understanding why it works.
-
-If you are feeling disconnected from the craft, build something small. Finish it. Then build again.
-
-![Pixel Paddle winner screen](/images/pixel-paddle/winner.jpg)
+For now, though, it is done. And this has gone a long way in rebuilding my confidence in what I am capable of.
 
 ---
 

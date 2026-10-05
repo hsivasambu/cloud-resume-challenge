@@ -1,36 +1,25 @@
 ---
-title: "Designing an AI Triage Assistant Without Letting AI Make Clinical Decisions"
-description: "Building a clinical alert triage system around one core constraint: AI explains alerts, rules and humans decide."
+title: "Clinical Alert Triage Assistant: AI Explanations with Human Oversight"
+description: "A simulated alert workflow with deterministic severity rules, AI explanations, human overrides, and an audit trail."
 date: 2026-05-06
 tags: ["healthcare", "AI", "system design", "reflection"]
 draft: false
 ---
 
-If you've seen *The Pitt*, you know how hectic a hospital floor can be. What the show does not fully capture is the number of alerts clinical staff receive over the course of a shift.
+## Project at a glance
 
-A bedside nurse may see telemetry alerts, oxygen saturation warnings, infusion pump alarms, fall-risk notifications, and nurse call escalations all while managing patients, family questions, documentation, and the thousand small things that keep a unit running.
+- **Problem:** Clinical alerts often arrive without enough context to understand priority and routing.
+- **My role:** Designed and built a personal prototype, informed by my healthcare implementation experience.
+- **Key tradeoff:** Used six simulated alert types and JSON inputs to focus on explanation and review before adding hospital integrations.
+- **Delivered:** A live demo with a rules engine, structured explanations, rules-only fallback, human overrides, feedback capture, and an audit log.
+- **Validation focus:** Severity floors, malformed or unavailable model output, review actions, and preservation of the decision trail. The demo makes these workflows inspectable; this write-up does not report a formal clinical evaluation.
+- **Status and limitations:** Demonstration MVP using simulated data. No real EHR integration or validated patient-care outcomes.
 
-The problem is not that alerts are useless. The problem is that too many alerts arrive with too little context. One system may say something is urgent without explaining why. Another alert may look routine, but actually be part of a worsening pattern. Over time, that volume creates alert fatigue. Staff become overwhelmed, and truly important signals can become harder to spot.
+[Try the live demo](https://clinical-alert-triage-t7t1.vercel.app/)
 
-That was the starting point for my project: **Clinical Alert Triage Assistant**, a simulated clinical alert triage system built around one core constraint:
-
-> **The AI should help explain alerts, not make clinical decisions.**
-
-That constraint came from conversations I've had with nurses and clinical staff during healthcare technology implementations. In clinical environments, systems need to earn trust. If they feel opaque, noisy, or disconnected from real workflows, they risk being ignored.
-
-<div style="margin: 28px 0; padding: 20px 24px; border: 1px solid var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-  <div>
-    <p style="margin: 0 0 4px; font-weight: 600;">Try the live demo</p>
-    <p style="margin: 0; color: var(--muted); font-size: 0.9em;">Interact with the triage assistant — submit simulated alerts and see the AI explanation layer in action.</p>
-  </div>
-  <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 10px 20px; background: var(--accent); color: #000; font-weight: 600; border-radius: 6px; text-decoration: none; white-space: nowrap;">Launch App →</a>
-</div>
+My experience implementing healthcare communication systems shaped this project. Conversations with clinical staff highlighted a recurring concern: alerts need context that people can inspect and trust. I explored how an AI explanation layer could support that need while leaving severity constraints and review authority with rules and humans.
 
 ## The Product Problem
-
-The goal was not to build a doctor in a box. That would be a terrible idea, and probably a very stressful box.
-
-The goal was to explore a narrower and more realistic question:
 
 **Can AI help make clinical alerts easier to understand while keeping deterministic rules and human review in control?**
 
@@ -188,49 +177,10 @@ The explanation has to help a human understand:
 
 That structure made the AI output easier to evaluate and much easier to design around in the UI.
 
-## What This Project Shows
+## Lessons and next steps
 
-This project was less about building a flashy AI wrapper and more about designing a responsible AI workflow for a high-risk environment.
+The main lesson was to define the model's authority before choosing the model. Severity floors, fallback behavior, and review history are requirements for the workflow, rather than features to add after the AI integration.
 
-A useful LLM integration does not always mean giving the model more authority. Sometimes the better design is giving it a narrower job and surrounding it with clear rules, fallback behavior, auditability, and human review.
+The next step would be to evaluate the prototype against a documented scenario set, including malformed outputs, unavailable AI, and human overrides. Moving beyond a demo would also require clinical validation, security review, identity controls, and integration testing. No clinical performance benefit has been measured here.
 
-In this case, the model's job was explanation.
-
-That narrower role made the system easier to reason about. The rules engine handled severity floors. The decision layer enforced boundaries. The UI made uncertainty and rule traces visible. The audit log preserved what happened.
-
-The result was not an autonomous clinical system. It was a prototype for how AI could improve clarity without taking control away from clinicians.
-
-## What I Learned
-
-The biggest lesson was that responsible AI design starts before the first API call.
-
-It starts with questions like:
-
-- What should the model be allowed to do?
-- What should it never be allowed to do?
-- What happens when it is wrong?
-- What happens when it is unavailable?
-- How will a human know what influenced the output?
-- How will decisions be reviewed later?
-
-Those questions shaped the architecture more than the model choice did.
-
-The LLM was useful, but the guardrails, rule trace, fallback behavior, and audit trail are what made the system defensible.
-
-## Closing Thought
-
-This project began with a simple idea: clinical alerts should be easier to understand.
-
-The more interesting challenge was figuring out how to use AI without handing it the steering wheel.
-
-That became the core product principle:
-
-**Let AI improve clarity. Keep authority with rules and humans.**
-
-For safety-sensitive workflows, that is not a limitation. That is the design.
-
----
-
-<div style="margin-top: 24px; text-align: center;">
-  <a href="https://clinical-alert-triage-t7t1.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: var(--accent); color: #000; font-weight: 600; border-radius: 6px; text-decoration: none; font-size: 1.05em;">Try the Clinical Alert Triage Assistant →</a>
-</div>
+[Explore the Clinical Alert Triage Assistant](https://clinical-alert-triage-t7t1.vercel.app/)
