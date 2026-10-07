@@ -21,26 +21,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <h2 style="margin: 0 0 10px; font-size: 22px;">Featured Work</h2>
     <div class="card featured-project" style="margin-bottom: 16px;">
       <div style="flex: 1; min-width: 0;">
-        <h3 style="margin: 0 0 8px;">Integration Reliability Sandbox</h3>
-        <p style="margin: 0 0 10px; color: var(--muted);">
-          Send a synthetic alert through a working API and follow what happens when the receiver fails or replies too late.
-        </p>
-        <ul style="margin: 0 0 12px; padding-left: 18px; color: var(--muted);">
-          <li>Stored delivery jobs and retry schedules in PostgreSQL so work survives restarts</li>
-          <li>Separated delivery acknowledgements from processing records to make timeouts understandable</li>
-          <li>Added duplicate protection and manual replay that preserves the original attempt history</li>
-        </ul>
-        <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-          <a href="https://integration-reliability-sandbox.onrender.com/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 18px; background: var(--accent-solid); color: var(--on-accent); font-weight: 600; border-radius: 6px; text-decoration: none;">Try Live Demo →</a>
-          <a href="/blog/reliability-sandbox">Read case study →</a>
-        </div>
-      </div>
-      <a href="/blog/reliability-sandbox" class="project-image">
-        <img src="/images/reliability-sandbox/timeout-attempt-history.jpg" alt="Delivery history showing a timed-out first attempt, successful retry and one repeat recognized by the receiver" width="636" height="366" style="width: 100%; border-radius: 6px; display: block;" />
-      </a>
-    </div>
-    <div class="card featured-project">
-      <div style="flex: 1; min-width: 0;">
         <h3 style="margin: 0 0 8px;">Clinical Alert Triage Assistant</h3>
         <p style="margin: 0 0 10px; color: var(--muted);">
           A simulated clinical alert workflow: rules set severity and routing, AI explains the result, and humans review.
@@ -62,6 +42,26 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           alt="Clinical alert triage alerts table"
           style="width: 100%; border-radius: 6px; display: block;"
         />
+      </a>
+    </div>
+    <div class="card featured-project">
+      <div style="flex: 1; min-width: 0;">
+        <h3 style="margin: 0 0 8px;">Integration Reliability Sandbox</h3>
+        <p style="margin: 0 0 10px; color: var(--muted);">
+          Send a synthetic alert through a working API and follow what happens when the receiver fails or replies too late.
+        </p>
+        <ul style="margin: 0 0 12px; padding-left: 18px; color: var(--muted);">
+          <li>Stored delivery jobs and retry schedules in PostgreSQL so work survives restarts</li>
+          <li>Separated delivery acknowledgements from processing records to make timeouts understandable</li>
+          <li>Added duplicate protection and manual replay that preserves the original attempt history</li>
+        </ul>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+          <a href="https://integration-reliability-sandbox.onrender.com/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 18px; background: var(--accent-solid); color: var(--on-accent); font-weight: 600; border-radius: 6px; text-decoration: none;">Try Live Demo →</a>
+          <a href="/blog/reliability-sandbox">Read case study →</a>
+        </div>
+      </div>
+      <a href="/blog/reliability-sandbox" class="project-image">
+        <img src="/images/reliability-sandbox/timeout-attempt-history.jpg" alt="Delivery history showing a timed-out first attempt, successful retry and one repeat recognized by the receiver" width="636" height="366" style="width: 100%; border-radius: 6px; display: block;" />
       </a>
     </div>
   </section>
