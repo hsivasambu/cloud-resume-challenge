@@ -6,7 +6,7 @@ const allPosts = (await getCollection("blog"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const featuredSlugs = ["clinical-alert-triage", "patient-logger", "cloud-resume-challenge"];
+const featuredSlugs = ["reliability-sandbox", "clinical-alert-triage", "cloud-resume-challenge", "patient-logger"];
 
 const featuredPosts = featuredSlugs
   .map((slug) => allPosts.find((p) => p.slug === slug))
@@ -15,6 +15,10 @@ const featuredPosts = featuredSlugs
 const otherPosts = allPosts.filter((p) => !featuredSlugs.includes(p.slug));
 
 const featuredMeta: Record<string, { label: string; demo?: string }> = {
+  "reliability-sandbox": {
+    label: "Integration Reliability",
+    demo: "https://integration-reliability-sandbox.onrender.com/",
+  },
   "clinical-alert-triage": {
     label: "AI + Healthcare",
     demo: "https://clinical-alert-triage-t7t1.vercel.app/",

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="750" viewBox="0 0 900 750" role="img" aria-labelledby="title desc">
+  <title id="title">Integration Reliability Sandbox data flow</title>
+  <desc id="desc">The browser submits an event to the API. The API stores the event and delivery job in PostgreSQL. A background worker claims due jobs and sends them over HTTP to the test receiver, which stores receipts in PostgreSQL. The browser polls the API for delivery history and processing receipts. API, worker and receiver share one Node.js process.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#4ba695"/></marker>
+    <style>text{font-family:system-ui,Segoe UI,sans-serif;fill:#edf5fa}.title{font-size:25px;font-weight:700}.heading{font-size:22px;font-weight:700}.label{font-size:19px;fill:#bdcedb}.step{font-size:18px;font-weight:600;fill:#93ddc9}.line{fill:none;stroke:#4ba695;stroke-width:2.5;marker-end:url(#arrow)}.box{fill:#20334a;stroke:#57728b;stroke-width:1.5}</style>
+  </defs>
+  <rect width="900" height="750" rx="18" fill="#132135"/>
+  <text x="36" y="48" class="title">One alert, from submission to receipt</text>
+  <text x="36" y="78" class="label">Synthetic data · PostgreSQL stores the work and its history</text>
+  <rect x="36" y="114" width="255" height="116" rx="12" class="box"/>
+  <text x="58" y="152" class="heading">Browser</text>
+  <text x="58" y="183" class="label">Compose a practice alert</text>
+  <text x="58" y="211" class="label">Follow delivery status</text>
+  <rect x="330" y="102" width="534" height="590" rx="16" fill="#192b40" stroke="#57728b" stroke-dasharray="6 6"/>
+  <text x="354" y="136" class="label">One Node.js / Express process on Render</text>
+  <rect x="394" y="158" width="408" height="98" rx="12" class="box"/>
+  <text x="416" y="193" class="heading">Event API</text>
+  <text x="416" y="226" class="label">Accept event · expose history and receipts</text>
+  <path d="M291 170H394" class="line"/>
+  <text x="304" y="161" class="step">1. POST</text>
+  <path d="M394 215H291" class="line" stroke-dasharray="5 5"/>
+  <text x="305" y="243" class="step">202</text>
+  <rect x="394" y="352" width="408" height="98" rx="12" class="box"/>
+  <text x="416" y="390" class="heading">Delivery worker</text>
+  <text x="416" y="422" class="label">Claim due work · record each attempt</text>
+  <rect x="394" y="546" width="408" height="110" rx="12" class="box"/>
+  <text x="416" y="584" class="heading">Test receiver</text>
+  <text x="416" y="615" class="label">Process once · recognize repeated IDs</text>
+  <text x="416" y="642" class="label">Reply, reject or delay</text>
+  <rect x="36" y="352" width="255" height="198" rx="12" fill="#193e3b" stroke="#4ba695" stroke-width="1.5"/>
+  <text x="58" y="393" class="heading">PostgreSQL</text>
+  <text x="58" y="429" class="label">Events + delivery jobs</text>
+  <text x="58" y="459" class="label">Retry due times</text>
+  <text x="58" y="489" class="label">Attempt history</text>
+  <text x="58" y="519" class="label">Processing receipts</text>
+  <path d="M510 256V297H164V352" class="line"/>
+  <text x="190" y="287" class="step">2. Store event + job together</text>
+  <path d="M291 399H394" class="line"/>
+  <text x="303" y="385" class="step">3. Claim</text>
+  <path d="M598 450V546" class="line"/>
+  <text x="618" y="490" class="step">4. HTTP delivery</text>
+  <text x="618" y="520" class="label">2-second timeout</text>
+  <path d="M394 601H164V550" class="line"/>
+  <text x="182" y="627" class="step">5. Save receipt + result</text>
+  <text x="36" y="270" class="label">Status polls → API</text>
+  <text x="36" y="726" class="label">A reply confirms delivery. A receipt shows processing. A timeout can separate them.</text>
+</svg>
