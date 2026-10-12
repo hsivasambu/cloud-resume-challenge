@@ -6,6 +6,8 @@ tags: ["cloud", "aws", "infra"]
 draft: false
 ---
 
+The AWS Cloud Resume Challenge inspired me to start learning about the cloud hands-on. Seeing healthcare systems move to the cloud in real time made me want to understand what was happening behind the scenes and move past the feeling that these systems were a black box. Building this portfolio gave me a practical place to start, connecting my healthcare experience with my interest in continuing to learn and expand my skills.
+
 ## Project at a glance
 
 - **Problem:** Publish a portfolio with repeatable infrastructure and deployments rather than manual console changes.
