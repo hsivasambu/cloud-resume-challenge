@@ -18,6 +18,14 @@ This is a portfolio demonstration with simulated data, not a system validated fo
 
 [Try the live demo](https://clinical-alert-triage-t7t1.vercel.app/) · [Explore the code](https://github.com/hsivasambu/clinical-alert-triage)
 
+## A small system with a clear boundary
+
+I kept the interface, decision logic and model service separate. The browser submits a simulated alert to the backend, which runs the rules before sending the alert context and baseline decision to OpenAI. The model returns an explanation and an optional escalation proposal; the backend checks that response, applies the priority limits and chooses the destination team.
+
+![System diagram showing the Vercel interface, backend rules and guardrails, a request and response to the OpenAI model, and SQLite storage](/images/alert-triaging/system-design.svg)
+
+This puts the API key and decision checks on the server. The interface displays the saved result, while the model has no direct access to the queue or database. If the model call fails or its response is rejected, the backend can still return a rules-based result. SQLite keeps the prototype simple, with the tradeoff that dependable history needs persistent server storage and multiple backend instances would need shared storage.
+
 ## How the pieces fit together
 
 I split the workflow into a few responsibilities:
