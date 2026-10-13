@@ -31,7 +31,7 @@ The model therefore has a useful but bounded role. It can bring context into the
 
 ## A live example: a mild alert with extra context
 
-*This walkthrough and its screenshots were recorded from the Vercel-hosted demo on October 13, 2026. They document a later update; the original publication date remains May 6, 2026.*
+*This walkthrough illustrates the May-June 2026 project development timeframe. The screenshots show the Vercel-hosted demo; the original publication date remains May 6, 2026.*
 
 I selected **Mild heart-rate alert, lightheaded patient** and clicked **Run example**. This generated a fresh AI response, rather than reopening one of the saved examples.
 
