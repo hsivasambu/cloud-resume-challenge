@@ -1,108 +1,78 @@
 ---
-title: "Clinical Alert Triage Assistant: AI Explanations with Human Oversight"
-description: "A simulated alert workflow with deterministic severity rules, AI explanations, human overrides, and an audit trail."
+title: "Clinical Alert Triage Assistant: Rules First, AI for Context"
+description: "How a simulated alert system combines clear rules with limited AI escalation, readable explanations, and human oversight."
 date: 2026-05-06
 tags: ["healthcare", "AI", "system design", "reflection"]
 draft: false
 ---
 
-## Project at a glance
-
-- **Problem:** Clinical alerts can arrive without enough context to understand priority and routing.
-- **My role:** Designed and built a personal prototype informed by healthcare implementation experience.
-- **Delivered:** Six simulated alert types, deterministic triage rules, optional AI explanations, human review, and an audit log.
-- **Tradeoff:** Used simulated inputs to explore the review workflow before adding hospital integrations.
-- **Validation:** The repository includes tests for severity rules, AI fallback, review actions, and persistence. These are software tests, not clinical validation.
-- **Status:** Live demonstration using simulated data; not a clinical system.
-
 ## The problem I chose
 
-Conversations with nurses and clinical staff during implementations made me interested in how alerts earn attention and trust. A priority label alone does not explain which evidence mattered or why an alert was routed to a particular team.
+Conversations with nurses and clinical staff during healthcare implementations made me interested in how alerts earn attention and trust. A priority label can tell someone that an alert matters without explaining what made it urgent. It can also miss context that changes how quickly someone should look at it.
 
-I wanted to explore whether AI could explain that context without controlling the triage decision. The prototype covers tachycardia, low oxygen saturation, infusion pump alarms, nurse calls, fall risk, and sepsis screening.
+Imagine a mildly raised heart rate. A simple threshold might assign it Low priority. Now add a patient who reports feeling lightheaded when standing, has a high fall-risk score, and recently received medications that can cause drowsiness. The measurement is the same, but there is more to review.
 
+I built this personal prototype to explore that gap. Rules provide a predictable starting point. AI explains the result and can propose a small increase in urgency when supplied patient context supports it. The aim is to make that reasoning visible, while keeping firm limits around what the model can change.
 
-## Try the working demo
+This is a portfolio demonstration with simulated data, not a system validated for patient care. It covers six alert types: fast heart rate, low oxygen saturation, infusion pump alarms, nurse calls, fall risk, and sepsis screening.
 
-[Open the portfolio demo](https://clinical-alert-triage-t7t1.vercel.app), [inspect the code](https://github.com/hsivasambu/clinical-alert-triage), or read the [walkthrough](https://github.com/hsivasambu/clinical-alert-triage#demo-walkthrough).
+[Try the live demo](https://clinical-alert-triage-t7t1.vercel.app/) · [Explore the code](https://github.com/hsivasambu/clinical-alert-triage)
 
-This is simulated data. Start with a threshold match, context-based routing or repeated input. Each demonstrates an engineering behavior without asking you to fill out the full simulator. Advanced customization is there if you want to explore all six types.
+## How the pieces fit together
 
-The explanation belongs to the recorded decision. Opening an existing alert does not generate a fresh AI answer. The demo also works without a model key: rules-only mode fills all six sections from input and matched rules. Hosting may lag the repository; the verification below describes tested source, not a claim that the deployment has been updated.
+I split the workflow into a few responsibilities:
 
-![Current demo with example launcher, queue filters and six synthetic alert cards](/images/alert-triaging/current-alert-queue.jpg)
+1. **Rules set the starting priority.** Measurements, thresholds and repeat alerts produce a result that can be traced back to the input.
+2. **AI reads the result alongside patient context.** It writes an explanation and may propose raising priority by one level. It cannot lower the rules' priority.
+3. **Code checks the proposal and chooses the team.** A model suggestion only takes effect after the checks pass. Routing remains controlled by code, even when AI raises priority.
+4. **The app saves the result for review.** The original rules result, AI contribution and any later human changes remain distinguishable.
 
-*All three interface screenshots were captured from the deployed demo on October 5, 2026. This narrow-screen view shows the example launcher and searchable alert queue. The screenshots document the refreshed interface; the original project and publication timeline remains May 2026.*
+The model therefore has a useful but bounded role. It can bring context into the decision without replacing the rules or choosing its own destination team.
 
-## Where I drew the boundary
+## A live example: a mild alert with extra context
 
-I wanted each layer's responsibility to be easy to inspect. Rules assign priority. The router assigns destination. The model gets that completed decision and explains it. It cannot raise priority, lower it or choose another team.
+*This walkthrough and its screenshots were recorded from the Vercel-hosted demo on October 13, 2026. They document a later update; the original publication date remains May 6, 2026.*
 
-![Recorded decision workflow: rules, routing, explanation, persistence, queue and human review](/images/alert-triaging/recorded-decision-workflow.svg)
+I selected **Mild heart-rate alert, lightheaded patient** and clicked **Run example**. This generated a fresh AI response, rather than reopening one of the saved examples.
 
-That boundary goes further than protecting Critical from downgrades. A model-generated escalation would still be a decision. I have kept that job deterministic in both directions.
+The synthetic patient had a heart rate of **106 bpm**. The matching rule covers heart rates above 100 and up to 110 bpm, so the starting priority was **Low**, routed to **Bedside Nurse**.
 
-Human review has its own record. Acceptance stores the version and values being accepted. Override creates a new effective version without rewriting the original. The screen shows both, so a later reader can distinguish software output from human changes. A later override needs a new acceptance, even when it restores familiar values.
+The input also included a fall-risk score of **60**, recent **oxycodone and diphenhydramine**, and the message **“Patient reports feeling lightheaded when standing.”** Those details gave the model context beyond the heart-rate threshold.
 
-![Current human review panel with acceptance, override, feedback and decision version](/images/alert-triaging/current-human-review.jpg)
+The AI proposed **Medium** priority. Its recorded reason was:
 
-*The deployed demo's review panel separates verification guidance from acceptance, override and explanation feedback, and displays review status and decision version.*
+> The patient is on sedating medications (oxycodone, diphenhydramine), has a high fall-risk score, and reports feeling lightheaded when standing, which makes a delay riskier.
 
-There is a limit here: the prototype lets a human lower even Critical. Reviewer names are typed labels, not authenticated identities. That demonstrates human control; it is not a finished clinical permissions policy.
+![Live synthetic heart-rate example raised from Low to Medium with a recorded AI explanation](/images/alert-triaging/live-ai-escalation.jpg)
 
-Feedback is deliberately modest. Ratings, categories and comments are stored in audit history. They do not retrain the model, alter rules or automatically improve future explanations. A learning pipeline would be separate future work.
+*The live result shows the rules' Low priority alongside the AI-supported Medium priority. The destination remains Bedside Nurse.*
 
-![Current recorded low oxygen explanation with Critical priority, Rapid Response routing and rules-only summary](/images/alert-triaging/current-recorded-explanation.jpg)
+The app accepted the explanation and applied the one-level increase. The proposal cited the medication list, fall-risk score and message from the input. The router then selected **Bedside Nurse** for the resulting priority.
 
-*The deployed low-oxygen sample shows the saved system decision and rules-only explanation. This existing medical/surgical fixture routes to Rapid Response; the separate ICU documentation example below routes to the ICU team. Displayed alert timestamps belong to synthetic fixtures, while processing timestamps describe the recorded run.*
+![Recorded AI escalation proposal, cited context and the outcome of the guardrail checks](/images/alert-triaging/live-ai-guardrails.jpg)
 
-## Worked example: one observation, two visible decisions
+*The screen separates what the model proposed from what the application allowed. Its confidence estimate is model-reported, not a clinical probability.*
 
-Here is a synthetic documentation example checked locally with the provider disabled. Its illustrative timestamp uses the original May 2026 project timeline; it is not the date of the later verification run:
+The saved record identifies the returned model as `gpt-4o-mini-2024-07-18`, with no fallback used. I kept the [observed run details](/evidence/clinical-alert-triage-live-ai.json) so the example can be inspected. Another generation may use different words or decline to escalate; this is one observed run, not a reliability study.
 
-```json
-{
-  "alert_id": "DOC-SPO2-001",
-  "source_system": "Documentation-Simulator",
-  "alert_type": "low_spo2",
-  "patient_id": "SYNTHETIC-001",
-  "unit": "ICU",
-  "timestamp": "2026-05-06T12:00:00Z",
-  "vital_signs": {"spo2": 85},
-  "repeat_count": 0
-}
-```
+## The guardrails that matter
 
-`SPO2_LT_88` matches because 85 is below 88. System priority is Critical. The ICU keyword branch selects `ICU Team (Intensivist + Nurse)` instead of the rule's initial Rapid Response destination. Both choices come from code, not narrative.
+**Rules provide a floor.** AI cannot reduce their priority, including a Critical result. Any accepted increase is limited to one level above the rules' starting point.
 
-With the provider disabled, the recorded explanation uses `rules_only` and `llm_disabled`. Its six sections explain observation, threshold, router branch and missing information. Absent heart rate or temperature is unavailable, not quietly normal. Verification guidance concerns source, units, timestamps and rule evidence, without diagnosis or treatment advice.
+**A proposal needs evidence.** The model must cite available context from the submitted alert. The app checks those references, recognized measurement claims, conflicting statements and configured prohibited phrases. An accepted explanation and a sufficient explanation-confidence estimate are also required before an increase can be applied.
 
-Initially the effective decision is Critical / ICU Team, version 0, unreviewed. In a deliberately synthetic review, overriding to High without a new route creates a version and retains the ICU route. The original Critical result stays intact. Accepting that version records High / ICU Team against it. Refreshing reloads saved history when backend storage persists. This demonstrates review mechanics, not advice to downgrade an alert.
+**Failure leaves a usable rules result.** If the model is unavailable, times out, produces an invalid response or fails the checks, the app keeps the rules-based decision and supplies an explanation from the input and matched rules. It records why AI was not used.
 
-## What the checks can and cannot establish
+**Human changes stay visible.** A reviewer can accept or override the result, with the original decision preserved. The prototype uses typed reviewer names rather than authenticated accounts, so it does not yet have a finished clinical permissions policy. Feedback is saved for inspection; it does not automatically train the model.
 
-I validate nonblank narrative, supplied evidence IDs, recognized measurement claims and detected decision contradictions. Conservative checks also look for prohibited content. Rejection records a reason and selects deterministic explanation. Provider failures, timeouts, invalid schemas and low explanation estimates have distinct reasons too.
+These checks limit the model's authority, but they cannot prove every sentence is correct. A valid reference can accompany an unsupported claim, and phrase checks can miss a paraphrase. Confidence scores are also estimates, not measured clinical reliability. The demo's thresholds and routing choices remain illustrative.
 
-Those checks make failures visible. They do not make prose trustworthy by definition. A valid citation can sit beside an unsupported sentence; a phrase filter can miss a paraphrase. I included a case that gets through rather than hiding it behind a perfect-looking score.
+## What this demonstrates—and what comes next
 
-Model confidence is a self-reported explanation estimate. A deterministic cap reduces its displayed value for sparse/noisy input. Neither number is a calibrated clinical probability. Old rule scores are manual weights, not measured reliability.
+The live walkthrough demonstrates that the pieces work together: rules establish a baseline, AI uses supplied context to propose a bounded increase, code enforces the limits, and the interface explains the resulting decision.
 
-Audit provenance records rules/prompt versions and hashes, model identity when available, validation outcome, fallback reason, duration and correlation ID. That helps inspect a recorded run; it does not guarantee identical words on another call. Rejected raw provider text is not retained as explanation history.
+Earlier [offline evaluations](https://github.com/hsivasambu/clinical-alert-triage/blob/2a1b169893d0c5e65ff37584ad7fe34d5082ab20/docs/evaluation-report.md) used synthetic alerts and mocked model responses. They tested an earlier version in which AI could not change priority, so their priority-preservation results should not be read as evidence for the newer escalation feature. The [current decision layer](https://github.com/hsivasambu/clinical-alert-triage/blob/984b0c1ff62e86a737b4509c023392da93cd23a8/backend/decision_layer.py) documents the bounded escalation used here.
 
-## Engineering evidence, with the denominator visible
+I have not established clinician agreement, real-model accuracy across a representative dataset, or improved patient outcomes. Moving beyond a demo would require clinical review of the rules and escalation policy, stronger identity and access controls, dependable storage, and real integration testing.
 
-In a later verification on October 5, 2026, source [`2a1b169`](https://github.com/hsivasambu/clinical-alert-triage/commit/2a1b169893d0c5e65ff37584ad7fe34d5082ab20) passed 211 backend, 43 UI, 16 local browser/layout and two real API integration tests, plus type checking/build. [Hosted CI](https://github.com/hsivasambu/clinical-alert-triage/actions/runs/37359198842) passed backend/frontend/integration. External model calls were disabled or mocked.
-
-[Evaluation](https://github.com/hsivasambu/clinical-alert-triage/blob/2a1b169893d0c5e65ff37584ad7fe34d5082ab20/docs/evaluation-report.md) combines 60 distinct alerts with 17 reused provider fixtures: 1,020 pipeline runs, plus eight invalid inputs. Expected priority **and routing** were preserved in 1,020/1,020. Final response schemas passed 1,020/1,020; six-section fallback was complete in 900/900.
-
-Adversarial detection was 420/480, or 87.5%. The same unsupported nonnumeric assertion escaped in 60 reused runs. Accepted evidence references passed mechanical checks, but that did not establish complete narrative grounding. These are correlated software-contract cases, not independent live-model trials. I have collected zero human narrative ratings and claim neither clinical validation nor improved patient outcomes.
-
-## Finished capabilities and future work
-
-Implemented: example submission, explanation, acceptance/override, feedback and chronological audit history. Missing input, provider fallback, duplicate IDs and database failures are handled before publishing decisions. Narrow screens have a usable queue and full-width detail view.
-
-Deployment still matters. Browser refresh retains reviews, but server restart requires persistent SQLite storage. The app bounds public writes and has no automatic retention expiry; it is designed for one process. A repository push alone does not create a persistent disk or update hosting.
-
-Authenticated reviewer permissions, shared multi-instance state, broader semantic checks, human narrative assessment and real clinical integration remain future work. Those are substantial projects, not boxes I can tick because the prototype runs.
-
-What I want this project to make visible is who owns a decision, what an explanation supports and what a reviewer can inspect afterwards. AI can be useful in that smaller role. Responsibility still needs to be explicit.
+What interests me most is the system-design balance: keep a clear rules foundation, let AI surface context within explicit limits, and show enough evidence for someone to question the result.
